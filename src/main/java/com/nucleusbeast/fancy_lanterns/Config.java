@@ -26,7 +26,9 @@ public class Config {
     private static final ModConfigSpec.BooleanValue ENABLE_SOUNDS = BUILDER.comment("Whether to play the sound on lantern effect trigger").define("enable_sound_effects", true);
     private static final ModConfigSpec.BooleanValue ENABLE_PREVIEW = BUILDER.comment("Whether to allow player to sneak click the lantern to show the radius of the lantern effects.").define("enable_preview_effects", true);
 
-    private static final ModConfigSpec.ConfigValue<List<? extends String>> UPGRADE_ITEM_STRINGS = BUILDER.comment("A list of items lantern can be upgraded with.").defineListAllowEmpty("items", List.of("minecraft:iron_ingot"), Config::validateItemName);
+    private static final ModConfigSpec.ConfigValue<List<? extends String>> UPGRADE_ITEM_TO_I = BUILDER.comment("A list of items lantern can be upgraded with.").defineListAllowEmpty("upgrade_item_to_I", List.of("minecraft:iron_ingot", "minecraft:iron_block"), Config::validateItemName);
+    private static final ModConfigSpec.ConfigValue<List<? extends String>> UPGRADE_ITEM_TO_II = BUILDER.comment("A list of items lantern can be upgraded with.").defineListAllowEmpty("upgrade_item_to_II", List.of("minecraft:gold_ingot", "minecraft:iron_block"), Config::validateItemName);
+    private static final ModConfigSpec.ConfigValue<List<? extends String>> UPGRADE_ITEM_TO_PERM = BUILDER.comment("A list of items lantern can be upgraded with.").defineListAllowEmpty("upgrade_item_to_permanent_lantern", List.of("minecraft:nether_star", "useless_things:nucleus_core"), Config::validateItemName);
 
 //    public static final ModConfigSpec.ConfigValue<String> MAGIC_NUMBER_INTRODUCTION = BUILDER.comment("What you want the introduction message to be for the magic number").define("magicNumberIntroduction", "The magic number is... ");
     static final ModConfigSpec SPEC = BUILDER.build();
@@ -38,7 +40,9 @@ public class Config {
     public static boolean enableParticles;
     public static boolean enableSoundEffects;
     public static boolean enableRangePreview;
-    public static Set<Item> upgradeItems;
+    public static Set<Item> upgradeItemsToLevel1;
+    public static Set<Item> upgradeItemsToLevel2;
+    public static Set<Item> upgradeItemsToPermanent;
 
 
     private static boolean validateItemName(final Object obj) {
@@ -56,6 +60,8 @@ public class Config {
         enableSoundEffects = ENABLE_SOUNDS.get();
 
         // convert the list of strings into a set of items
-        upgradeItems = UPGRADE_ITEM_STRINGS.get().stream().map(itemName -> BuiltInRegistries.ITEM.get(ResourceLocation.parse(itemName))).collect(Collectors.toSet());
+        upgradeItemsToLevel1 = UPGRADE_ITEM_TO_I.get().stream().map(itemName -> BuiltInRegistries.ITEM.get(ResourceLocation.parse(itemName))).collect(Collectors.toSet());
+        upgradeItemsToLevel2 = UPGRADE_ITEM_TO_II.get().stream().map(itemName -> BuiltInRegistries.ITEM.get(ResourceLocation.parse(itemName))).collect(Collectors.toSet());
+        upgradeItemsToPermanent = UPGRADE_ITEM_TO_PERM.get().stream().map(itemName -> BuiltInRegistries.ITEM.get(ResourceLocation.parse(itemName))).collect(Collectors.toSet());
     }
 }
