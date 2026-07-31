@@ -24,6 +24,10 @@ public class ModItems {
 
                         // Blocks
                         output.accept(ModBlocks.MURKY_LANTERN.get());
+                        output.accept(ModBlocks.MURKY_LANTERN_UPGRADE_I.get());
+                        output.accept(ModBlocks.MURKY_LANTERN_UPGRADE_II.get());
+                        output.accept(ModBlocks.MURKY_LANTERN_PERMANENT.get());
+
                         output.accept(ModBlocks.HEALTHY_LANTERN.get());
                         output.accept(ModBlocks.HASTY_LANTERN.get());
 

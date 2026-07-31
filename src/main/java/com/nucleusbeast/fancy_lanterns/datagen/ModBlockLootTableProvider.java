@@ -28,6 +28,10 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
     protected void generate() {
 //        dropSelf(ModBlocks.SIMPLE_GENERATOR.get());
         dropSelf(ModBlocks.MURKY_LANTERN.get());
+        dropSelf(ModBlocks.MURKY_LANTERN_UPGRADE_I.get());
+        dropSelf(ModBlocks.MURKY_LANTERN_UPGRADE_II.get());
+        dropSelf(ModBlocks.MURKY_LANTERN_PERMANENT.get());
+
         dropSelf(ModBlocks.HEALTHY_LANTERN.get());
         dropSelf(ModBlocks.HASTY_LANTERN.get());
 

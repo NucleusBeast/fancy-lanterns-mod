@@ -25,6 +25,18 @@ public class ModBlocks {
             () -> new FizzeledLanternBlock(
                     BlockBehaviour.Properties.of().strength(0.3f).lightLevel(state -> 10).sound(SoundType.LANTERN)
             ));
+    public static final DeferredBlock<Block> MURKY_LANTERN_UPGRADE_I = registerBlock("murky_lantern_upgrade_i",
+            () -> new FizzeledLanternBlock(
+                    BlockBehaviour.Properties.of().strength(0.3f).lightLevel(state -> 10).sound(SoundType.LANTERN)
+            ));
+    public static final DeferredBlock<Block> MURKY_LANTERN_UPGRADE_II = registerBlock("murky_lantern_upgrade_ii",
+            () -> new FizzeledLanternBlock(
+                    BlockBehaviour.Properties.of().strength(0.3f).lightLevel(state -> 10).sound(SoundType.LANTERN)
+            ));
+    public static final DeferredBlock<Block> MURKY_LANTERN_PERMANENT = registerBlock("permanent_murky_lantern",
+            () -> new FizzeledLanternBlock(
+                    BlockBehaviour.Properties.of().strength(0.3f).lightLevel(state -> 10).sound(SoundType.LANTERN)
+            ));
 
     public static final DeferredBlock<Block> HASTY_LANTERN = registerBlock("hasty_lantern",
             () -> new FancyLanternBlock(

@@ -18,6 +18,10 @@ public class ModBlockStateProvider extends BlockStateProvider {
     @Override
     protected void registerStatesAndModels() {
         lanternBlock(ModBlocks.MURKY_LANTERN);
+        lanternBlock(ModBlocks.MURKY_LANTERN_UPGRADE_I);
+        lanternBlock(ModBlocks.MURKY_LANTERN_UPGRADE_II);
+        lanternBlock(ModBlocks.MURKY_LANTERN_PERMANENT);
+
         lanternBlock(ModBlocks.HEALTHY_LANTERN);
         lanternBlock(ModBlocks.HASTY_LANTERN);
     }

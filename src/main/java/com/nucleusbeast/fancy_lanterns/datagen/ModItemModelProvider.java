@@ -19,6 +19,10 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         // items
         basicItem(ModBlocks.MURKY_LANTERN.asItem());
+        basicItem(ModBlocks.MURKY_LANTERN_UPGRADE_I.asItem());
+        basicItem(ModBlocks.MURKY_LANTERN_UPGRADE_II.asItem());
+        basicItem(ModBlocks.MURKY_LANTERN_PERMANENT.asItem());
+
         basicItem(ModBlocks.HEALTHY_LANTERN.asItem());
         basicItem(ModBlocks.HASTY_LANTERN.asItem());
 //        handheldItem(ModItems.MAJESTIC_STICK.get());
