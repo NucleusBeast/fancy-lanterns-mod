@@ -3,8 +3,6 @@ package com.nucleusbeast.fancy_lanterns;
 import com.mojang.logging.LogUtils;
 import com.nucleusbeast.fancy_lanterns.blocks.ModBlocks;
 import net.minecraft.client.Minecraft;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.world.level.block.Blocks;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -15,7 +13,6 @@ import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import org.slf4j.Logger;
 
@@ -25,7 +22,7 @@ public class FancyLanterns {
     // Define mod id in a common place for everything to reference
     public static final String MODID = "fancy_lanterns";
     // Directly reference a slf4j logger
-    private static final Logger LOGGER = LogUtils.getLogger();
+    public static final Logger LOGGER = LogUtils.getLogger();
     // Create a Deferred Register to hold Blocks which will all be registered under the "fancy_lanterns" namespace
 
     // The constructor for the mod class is the first code that is run when your mod is loaded.
@@ -43,13 +40,9 @@ public class FancyLanterns {
 
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
-
-//        ModLootModifiers.register(modEventBus);
         ModBlockEntities.register(modEventBus);
 
-
-        // Register the item to a creative tab
-        modEventBus.addListener(this::addCreative);
+//        ModLootModifiers.register(modEventBus);
 
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
@@ -63,11 +56,6 @@ public class FancyLanterns {
 //
 //        Config.items.forEach((item) -> LOGGER.info("ITEM >> {}", item.toString()));
         LOGGER.info("[FANCY LANTERNS] Config aoe set to: {} - Regular Range; {} - I Range; {} - II Range", Config.regularLanternRange, Config.upgradedLanternRangeI, Config.upgradedLanternRangeII);
-    }
-
-    // Add the example block item to the building blocks tab
-    private void addCreative(BuildCreativeModeTabContentsEvent event) {
-//        if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) event.accept(EXAMPLE_BLOCK_ITEM);
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
