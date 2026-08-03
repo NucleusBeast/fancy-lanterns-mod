@@ -25,6 +25,17 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         basicItem(ModBlocks.HEALTHY_LANTERN.asItem());
         basicItem(ModBlocks.HASTY_LANTERN.asItem());
+        basicItem(ModBlocks.JUMPY_LANTERN.asItem());
+        basicItem(ModBlocks.SPEEDY_LANTERN.asItem());
+        basicItem(ModBlocks.SATURATY_LANTERN.asItem());
+        basicItem(ModBlocks.STRENGTHY_LANTERN.asItem());
+        basicItem(ModBlocks.BREATHY_LANTERN.asItem());
+        basicItem(ModBlocks.FIERY_LANTERN.asItem());
+        basicItem(ModBlocks.NIGHTY_LANTERN.asItem());
+        basicItem(ModBlocks.LUCKY_LANTERN.asItem());
+        basicItem(ModBlocks.ABSORBY_LANTERN.asItem());
+
+
 //        handheldItem(ModItems.MAJESTIC_STICK.get());
     }
 

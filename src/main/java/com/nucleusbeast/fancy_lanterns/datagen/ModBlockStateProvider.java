@@ -24,6 +24,16 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
         lanternBlock(ModBlocks.HEALTHY_LANTERN);
         lanternBlock(ModBlocks.HASTY_LANTERN);
+        lanternBlock(ModBlocks.SPEEDY_LANTERN);
+        lanternBlock(ModBlocks.JUMPY_LANTERN);
+        lanternBlock(ModBlocks.SATURATY_LANTERN);
+        lanternBlock(ModBlocks.STRENGTHY_LANTERN);
+        lanternBlock(ModBlocks.BREATHY_LANTERN);
+        lanternBlock(ModBlocks.NIGHTY_LANTERN);
+        lanternBlock(ModBlocks.ABSORBY_LANTERN);
+        lanternBlock(ModBlocks.FIERY_LANTERN);
+        lanternBlock(ModBlocks.LUCKY_LANTERN);
+
     }
 
     private void blockWithItem(DeferredBlock<?> block){

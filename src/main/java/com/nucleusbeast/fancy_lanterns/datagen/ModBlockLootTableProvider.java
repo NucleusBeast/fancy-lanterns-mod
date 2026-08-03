@@ -34,6 +34,15 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
 
         dropSelf(ModBlocks.HEALTHY_LANTERN.get());
         dropSelf(ModBlocks.HASTY_LANTERN.get());
+        dropSelf(ModBlocks.SPEEDY_LANTERN.get());
+        dropSelf(ModBlocks.JUMPY_LANTERN.get());
+        dropSelf(ModBlocks.BREATHY_LANTERN.get());
+        dropSelf(ModBlocks.ABSORBY_LANTERN.get());
+        dropSelf(ModBlocks.FIERY_LANTERN.get());
+        dropSelf(ModBlocks.LUCKY_LANTERN.get());
+        dropSelf(ModBlocks.NIGHTY_LANTERN.get());
+        dropSelf(ModBlocks.SATURATY_LANTERN.get());
+        dropSelf(ModBlocks.STRENGTHY_LANTERN.get());
 
         // add(ModBlocks.ORE_1.get(), block -> createOreDrop(block, ModItems.NUCLEUS_CORE.get()));
         // add(ModBlocks.ORE_1.get(), block -> createMultipleOreDrops(ModBlocks.ORE_1.get(), ModItems.RAW_ORE_ITEM1.get(), 1.0f, 2.0f));

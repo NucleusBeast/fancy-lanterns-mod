@@ -16,7 +16,19 @@ public class ModBlockEntities {
 
     public static final Supplier<BlockEntityType<FancyLanternEntity>> MURKY_LANTERN_ENTITY =
             BLOCK_ENTITIES.register("murky_lantern_entity", () -> BlockEntityType.Builder.of(
-                    FancyLanternEntity::new, ModBlocks.MURKY_LANTERN.get(), ModBlocks.HASTY_LANTERN.get(), ModBlocks.HEALTHY_LANTERN.get()).build(null));
+                    FancyLanternEntity::new,
+                    ModBlocks.MURKY_LANTERN.get(),
+                    ModBlocks.HASTY_LANTERN.get(),
+                    ModBlocks.HEALTHY_LANTERN.get(),
+                    ModBlocks.ABSORBY_LANTERN.get(),
+                    ModBlocks.SPEEDY_LANTERN.get(),
+                    ModBlocks.JUMPY_LANTERN.get(),
+                    ModBlocks.STRENGTHY_LANTERN.get(),
+                    ModBlocks.SATURATY_LANTERN.get(),
+                    ModBlocks.LUCKY_LANTERN.get(),
+                    ModBlocks.NIGHTY_LANTERN.get(),
+                    ModBlocks.BREATHY_LANTERN.get()
+                    ).build(null));
 
     public static void register(IEventBus bus) {
         BLOCK_ENTITIES.register(bus);

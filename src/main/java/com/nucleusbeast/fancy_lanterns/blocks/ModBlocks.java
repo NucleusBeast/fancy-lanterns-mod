@@ -20,22 +20,22 @@ public class ModBlocks {
 
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(FancyLanterns.MODID);
 
-    // Health Lantern
+    // Fizzeled out Lantern
     public static final DeferredBlock<Block> MURKY_LANTERN = registerBlock("murky_lantern",
             () -> new FizzeledLanternBlock(
-                    BlockBehaviour.Properties.of().strength(0.3f).lightLevel(state -> 10).sound(SoundType.LANTERN)
+                    BlockBehaviour.Properties.of().strength(0.3f).lightLevel(state -> 1).sound(SoundType.LANTERN)
             ));
     public static final DeferredBlock<Block> MURKY_LANTERN_UPGRADE_I = registerBlock("murky_lantern_upgrade_i",
             () -> new FizzeledLanternBlock(
-                    BlockBehaviour.Properties.of().strength(0.3f).lightLevel(state -> 10).sound(SoundType.LANTERN)
+                    BlockBehaviour.Properties.of().strength(0.3f).lightLevel(state -> 1).sound(SoundType.LANTERN)
             ));
     public static final DeferredBlock<Block> MURKY_LANTERN_UPGRADE_II = registerBlock("murky_lantern_upgrade_ii",
             () -> new FizzeledLanternBlock(
-                    BlockBehaviour.Properties.of().strength(0.3f).lightLevel(state -> 10).sound(SoundType.LANTERN)
+                    BlockBehaviour.Properties.of().strength(0.3f).lightLevel(state -> 1).sound(SoundType.LANTERN)
             ));
     public static final DeferredBlock<Block> MURKY_LANTERN_PERMANENT = registerBlock("permanent_murky_lantern",
             () -> new FizzeledLanternBlock(
-                    BlockBehaviour.Properties.of().strength(0.3f).lightLevel(state -> 10).sound(SoundType.LANTERN)
+                    BlockBehaviour.Properties.of().strength(0.3f).lightLevel(state -> 1).sound(SoundType.LANTERN)
             ));
 
     public static final DeferredBlock<Block> HASTY_LANTERN = registerBlock("hasty_lantern",
@@ -54,6 +54,96 @@ public class ModBlocks {
                     BlockBehaviour.Properties.of().strength(0.3f).lightLevel(state -> 10).sound(SoundType.LANTERN),
                     MobEffects.REGENERATION,
                     ParticleTypes.HEART,
+                    3
+            ));
+
+    public static final DeferredBlock<Block> ABSORBY_LANTERN = registerBlock("absorby_lantern",
+            () -> new FancyLanternBlock(
+                    BlockBehaviour.Properties.of().strength(0.3f).lightLevel(state -> 10).sound(SoundType.LANTERN),
+                    MobEffects.ABSORPTION,
+                    ColorParticleOption.create(
+                            ParticleTypes.ENTITY_EFFECT,
+                            1.0F, 0.85F, 0.1F
+                    ),
+                    1
+            ));
+
+    public static final DeferredBlock<Block> SATURATY_LANTERN = registerBlock("saturaty_lantern",
+            () -> new FancyLanternBlock(
+                    BlockBehaviour.Properties.of().strength(0.3f).lightLevel(state -> 10).sound(SoundType.LANTERN),
+                    MobEffects.SATURATION,
+                    ColorParticleOption.create(
+                            ParticleTypes.ENTITY_EFFECT,
+                            1.0F, 0.85F, 0.1F
+                    ),
+                    1
+            ));
+
+    public static final DeferredBlock<Block> NIGHTY_LANTERN = registerBlock("nighty_lantern",
+            () -> new FancyLanternBlock(
+                    BlockBehaviour.Properties.of().strength(0.3f).lightLevel(state -> 10).sound(SoundType.LANTERN),
+                    MobEffects.NIGHT_VISION,
+                    ColorParticleOption.create(
+                            ParticleTypes.ENTITY_EFFECT,
+                            1.0F, 0.85F, 0.1F
+                    ),
+                    1
+            ));
+
+    public static final DeferredBlock<Block> LUCKY_LANTERN = registerBlock("lucky_lantern",
+            () -> new FancyLanternBlock(
+                    BlockBehaviour.Properties.of().strength(0.3f).lightLevel(state -> 10).sound(SoundType.LANTERN),
+                    MobEffects.LUCK,
+                    ColorParticleOption.create(
+                            ParticleTypes.ENTITY_EFFECT,
+                            1.0F, 0.85F, 0.1F
+                    ),
+                    1
+            ));
+
+    public static final DeferredBlock<Block> JUMPY_LANTERN = registerBlock("jumpy_lantern",
+            () -> new FancyLanternBlock(
+                    BlockBehaviour.Properties.of().strength(0.3f).lightLevel(state -> 10).sound(SoundType.LANTERN),
+                    MobEffects.JUMP,
+                    ColorParticleOption.create(
+                            ParticleTypes.ENTITY_EFFECT,
+                            1.0F, 0.85F, 0.1F
+                    ),
+                    1
+            ));
+
+    public static final DeferredBlock<Block> SPEEDY_LANTERN = registerBlock("speedy_lantern",
+            () -> new FancyLanternBlock(
+                    BlockBehaviour.Properties.of().strength(0.3f).lightLevel(state -> 10).sound(SoundType.LANTERN),
+                    MobEffects.MOVEMENT_SPEED,
+                    ColorParticleOption.create(
+                            ParticleTypes.ENTITY_EFFECT,
+                            1.0F, 0.85F, 0.1F
+                    ),
+                    1
+            ));
+
+    public static final DeferredBlock<Block> FIERY_LANTERN = registerBlock("fiery_lantern",
+            () -> new FancyLanternBlock(
+                    BlockBehaviour.Properties.of().strength(0.3f).lightLevel(state -> 10).sound(SoundType.LANTERN),
+                    MobEffects.FIRE_RESISTANCE,
+                    ParticleTypes.LAVA,
+                    3
+            ));
+
+    public static final DeferredBlock<Block> STRENGTHY_LANTERN = registerBlock("strengthy_lantern",
+            () -> new FancyLanternBlock(
+                    BlockBehaviour.Properties.of().strength(0.3f).lightLevel(state -> 10).sound(SoundType.LANTERN),
+                    MobEffects.DAMAGE_BOOST,
+                    ParticleTypes.CRIT,
+                    3
+            ));
+
+    public static final DeferredBlock<Block> BREATHY_LANTERN = registerBlock("breathy_lantern",
+            () -> new FancyLanternBlock(
+                    BlockBehaviour.Properties.of().strength(0.3f).lightLevel(state -> 10).sound(SoundType.LANTERN),
+                    MobEffects.WATER_BREATHING,
+                    ParticleTypes.NAUTILUS,
                     3
             ));
 
