@@ -33,7 +33,12 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         dropSelf(ModBlocks.MURKY_LANTERN_PERMANENT.get());
 
         dropSelf(ModBlocks.HEALTHY_LANTERN.get());
+
         dropSelf(ModBlocks.HASTY_LANTERN.get());
+        dropSelf(ModBlocks.HASTY_LANTERN_PERMANENT.get());
+        dropSelf(ModBlocks.HASTY_LANTERN_UPGRADE_I.get());
+        dropSelf(ModBlocks.HASTY_LANTERN_UPGRADE_II.get());
+
         dropSelf(ModBlocks.SPEEDY_LANTERN.get());
         dropSelf(ModBlocks.JUMPY_LANTERN.get());
         dropSelf(ModBlocks.BREATHY_LANTERN.get());

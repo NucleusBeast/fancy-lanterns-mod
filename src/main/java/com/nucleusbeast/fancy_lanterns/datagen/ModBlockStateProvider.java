@@ -23,7 +23,12 @@ public class ModBlockStateProvider extends BlockStateProvider {
         lanternBlock(ModBlocks.MURKY_LANTERN_PERMANENT);
 
         lanternBlock(ModBlocks.HEALTHY_LANTERN);
+
         lanternBlock(ModBlocks.HASTY_LANTERN);
+        lanternBlock(ModBlocks.HASTY_LANTERN_PERMANENT);
+        lanternBlock(ModBlocks.HASTY_LANTERN_UPGRADE_I);
+        lanternBlock(ModBlocks.HASTY_LANTERN_UPGRADE_II);
+
         lanternBlock(ModBlocks.SPEEDY_LANTERN);
         lanternBlock(ModBlocks.JUMPY_LANTERN);
         lanternBlock(ModBlocks.SATURATY_LANTERN);

@@ -1,5 +1,6 @@
 package com.nucleusbeast.fancy_lanterns.blocks;
 
+import com.nucleusbeast.fancy_lanterns.Config;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -17,16 +18,23 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LanternBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.BlockHitResult;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
+import java.util.Set;
 
 public class FizzeledLanternBlock extends LanternBlock {
-    public FizzeledLanternBlock(Properties properties) {
+    public FizzeledLanternBlock(Properties properties, DeferredBlock<Block> upgradesInto, int level) {
         super(properties);
+        this.upgradesInto = upgradesInto;
+        this.level = level;
     }
+
+    public DeferredBlock<Block> upgradesInto;
+    public int level;
 
     private static final Map<Item, DeferredBlock<Block>> RELIGHT_MATERIAL =
             Map.ofEntries(
@@ -65,6 +73,36 @@ public class FizzeledLanternBlock extends LanternBlock {
             }
         }
 
+        if (this.level > 3){
+            return ItemInteractionResult.SKIP_DEFAULT_BLOCK_INTERACTION;
+        }
+        if (getLanternUpgradeItems(this.level).contains(itemStack.getItem())) {
+            if (!level.isClientSide && player instanceof ServerPlayer serverPlayer) {
+                BlockState upgradedBlcok = upgradesInto.get()
+                        .defaultBlockState()
+                        .setValue(
+                                BlockStateProperties.HANGING,
+                                state.getValue(BlockStateProperties.HANGING)
+                        )
+                        .setValue(
+                                BlockStateProperties.WATERLOGGED,
+                                state.getValue(BlockStateProperties.WATERLOGGED)
+                        );
+                level.setBlockAndUpdate(pos, upgradedBlcok);
+                itemStack.consume(1, player);
+                level.playSound(null, pos, SoundEvents.FOX_EAT, SoundSource.BLOCKS);
+            }
+        }
+
         return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+    }
+
+    private static Set<Item> getLanternUpgradeItems(int level) {
+        return switch (level) {
+            case 1 -> Config.upgradeItemsToLevel1;
+            case 2 -> Config.upgradeItemsToLevel2;
+            case 3 -> Config.upgradeItemsToPermanent;
+            default -> Set.of();
+        };
     }
 }

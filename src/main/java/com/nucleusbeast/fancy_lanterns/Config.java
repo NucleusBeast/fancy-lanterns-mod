@@ -21,6 +21,7 @@ public class Config {
     private static final ModConfigSpec.IntValue REGULAR_LANTERN_RANGE = BUILDER.comment("Range of a regular lantern area of effects").defineInRange("regularLanternRange", 2, 0, Integer.MAX_VALUE);
     private static final ModConfigSpec.IntValue I_UPGRADE_LANTERN_RANGE = BUILDER.comment("Range of an upgraded (level I) lantern area of effects").defineInRange("upgradedLanternRangeI", 4, 0, Integer.MAX_VALUE);
     private static final ModConfigSpec.IntValue II_UPGRADE_LANTERN_RANGE = BUILDER.comment("Range of an upgraded (level II) lantern area of effects").defineInRange("upgradedLanternRangeII", 8, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.BooleanValue RETAIN_LEVEL = BUILDER.comment("Whether to lantern retains the level after expiring").define("retainLanternLevel", true);
 
     private static final ModConfigSpec.BooleanValue ENABLE_PARTICLES = BUILDER.comment("Whether to show particles of lantern effect").define("enable_particle_effects", true);
     private static final ModConfigSpec.BooleanValue ENABLE_SOUNDS = BUILDER.comment("Whether to play the sound on lantern effect trigger").define("enable_sound_effects", true);
@@ -36,6 +37,7 @@ public class Config {
     public static int regularLanternRange;
     public static int upgradedLanternRangeI;
     public static int upgradedLanternRangeII;
+    public static boolean retainLanterLevel;
 
     public static boolean enableParticles;
     public static boolean enableSoundEffects;
@@ -54,6 +56,7 @@ public class Config {
         regularLanternRange = REGULAR_LANTERN_RANGE.get();
         upgradedLanternRangeI = I_UPGRADE_LANTERN_RANGE.get();
         upgradedLanternRangeII = II_UPGRADE_LANTERN_RANGE.get();
+        retainLanterLevel = RETAIN_LEVEL.get();
 
         enableParticles = ENABLE_PARTICLES.get();
         enableRangePreview = ENABLE_PREVIEW.get();

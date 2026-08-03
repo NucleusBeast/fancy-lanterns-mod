@@ -13,8 +13,10 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.AABB;
 
 import javax.annotation.Nullable;
@@ -39,11 +41,16 @@ public class FancyLanternEntity extends BlockEntity {
         this.primaryPower = ((FancyLanternBlock) blockState.getBlock()).getEffect();
         this.particleTypes = ((FancyLanternBlock) blockState.getBlock()).getParticleTypes();
         this.levels = ((FancyLanternBlock) blockState.getBlock()).getLevel();
+        this.usesRemaining = this.maxUsesTimesLevel * this.levels;
     }
 
     public int levels;
     public Holder<MobEffect> primaryPower;
     public ParticleOptions particleTypes;
+
+    public int maxUsesTimesLevel = 5;
+    private int usesRemaining = 0;
+    public boolean isPermanent = false;
 
     public void startRangePreview(ServerPlayer player) {
         if (level instanceof ServerLevel serverLevel) {
@@ -61,7 +68,24 @@ public class FancyLanternEntity extends BlockEntity {
 
         if (level.getGameTime() % 80L == 0L) {
             if (blockEntity.levels > 0) {
-                applyEffects(level, pos, blockEntity.levels, blockEntity.primaryPower);
+                if (blockEntity.usesRemaining < 1){
+                    if (!level.isClientSide) {
+                        BlockState fizzledState = getFizzledLantern(blockEntity)
+                                .defaultBlockState()
+                                .setValue(
+                                        BlockStateProperties.HANGING,
+                                        state.getValue(BlockStateProperties.HANGING)
+                                )
+                                .setValue(
+                                        BlockStateProperties.WATERLOGGED,
+                                        state.getValue(BlockStateProperties.WATERLOGGED)
+                                );
+                        level.setBlockAndUpdate(pos, fizzledState);
+                    }
+
+                    return;
+                }
+                applyEffects(level, pos, blockEntity, blockEntity.primaryPower);
                 playSound(level, pos, SoundEvents.ITEM_PICKUP);
 
 
@@ -139,20 +163,35 @@ public class FancyLanternEntity extends BlockEntity {
         }
     }
 
+    private static Block getFizzledLantern(FancyLanternEntity lantern) {
+        if (!Config.retainLanterLevel) {
+            return ModBlocks.MURKY_LANTERN.get();
+        }
+
+        return switch (lantern.levels) {
+            case 2 -> ModBlocks.MURKY_LANTERN_UPGRADE_I.get();
+            case 3 -> ModBlocks.MURKY_LANTERN_UPGRADE_II.get();
+            default -> ModBlocks.MURKY_LANTERN.get();
+        };
+    }
+
     private static void applyEffects(
-            Level level, BlockPos pos, int beaconLevel, @Nullable Holder<MobEffect> primaryEffect) {
+            Level level, BlockPos pos, FancyLanternEntity beaconLevel, @Nullable Holder<MobEffect> primaryEffect) {
         if (!level.isClientSide && primaryEffect != null) {
 //            double range = (double)(beaconLevel * 10 + 10);
             int amplifier = 0;
 
-            int duration = (9 + beaconLevel * 2) * 20;
+            int duration = (9 + beaconLevel.levels * 2) * 20;
             AABB aabb = new AABB(pos)
-                    .inflate(getRange(beaconLevel))
-                    .expandTowards(0.0, getRange(beaconLevel) * 1.5D, 0.0);
+                    .inflate(getRange(beaconLevel.levels))
+                    .expandTowards(0.0, getRange(beaconLevel.levels) * 1.5D, 0.0);
             List<Player> list = level.getEntitiesOfClass(Player.class, aabb);
 
             for (Player player : list) {
-                player.addEffect(new MobEffectInstance(primaryEffect, duration, amplifier, true, true));
+                boolean wasApplied = player.addEffect(new MobEffectInstance(primaryEffect, duration, amplifier, true, true));
+                if (wasApplied){
+                    beaconLevel.usesRemaining--;
+                }
             }
         }
     }
