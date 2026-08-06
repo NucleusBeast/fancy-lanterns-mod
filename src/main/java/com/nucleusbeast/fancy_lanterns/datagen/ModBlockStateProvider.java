@@ -17,32 +17,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
     @Override
     protected void registerStatesAndModels() {
-        lanternBlock(ModBlocks.MURKY_LANTERN);
-        lanternBlock(ModBlocks.MURKY_LANTERN_UPGRADE_I);
-        lanternBlock(ModBlocks.MURKY_LANTERN_UPGRADE_II);
-        lanternBlock(ModBlocks.MURKY_LANTERN_PERMANENT);
-
-        lanternBlock(ModBlocks.HEALTHY_LANTERN);
-
-        lanternBlock(ModBlocks.HASTY_LANTERN);
-        lanternBlock(ModBlocks.HASTY_LANTERN_PERMANENT);
-        lanternBlock(ModBlocks.HASTY_LANTERN_UPGRADE_I);
-        lanternBlock(ModBlocks.HASTY_LANTERN_UPGRADE_II);
-
-        lanternBlock(ModBlocks.SPEEDY_LANTERN);
-        lanternBlock(ModBlocks.JUMPY_LANTERN);
-        lanternBlock(ModBlocks.SATURATY_LANTERN);
-        lanternBlock(ModBlocks.STRENGTHY_LANTERN);
-        lanternBlock(ModBlocks.BREATHY_LANTERN);
-        lanternBlock(ModBlocks.NIGHTY_LANTERN);
-        lanternBlock(ModBlocks.ABSORBY_LANTERN);
-        lanternBlock(ModBlocks.FIERY_LANTERN);
-        lanternBlock(ModBlocks.LUCKY_LANTERN);
-
-    }
-
-    private void blockWithItem(DeferredBlock<?> block){
-        simpleBlockWithItem(block.get(), cubeAll(block.get()));
+        ModBlocks.ALL_LANTERNS.forEach(this::lanternBlock);
     }
 
     private void lanternBlock(DeferredBlock<?> block) {

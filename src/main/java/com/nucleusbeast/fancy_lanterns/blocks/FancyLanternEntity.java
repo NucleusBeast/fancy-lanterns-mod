@@ -68,7 +68,7 @@ public class FancyLanternEntity extends BlockEntity {
 
         if (level.getGameTime() % 80L == 0L) {
             if (blockEntity.levels > 0) {
-                if (blockEntity.usesRemaining < 1){
+                if (blockEntity.usesRemaining < 1) {
                     if (!level.isClientSide) {
                         BlockState fizzledState = getFizzledLantern(blockEntity)
                                 .defaultBlockState()
@@ -130,7 +130,7 @@ public class FancyLanternEntity extends BlockEntity {
         double particleY = pos.getY() + 0.1D;
 
         for (int point = 0; point < (RANGE_PREVIEW_PARTICLE_COUNT * levels); point++) {
-            double angle = Math.PI * 2.0D * point /( RANGE_PREVIEW_PARTICLE_COUNT * levels);
+            double angle = Math.PI * 2.0D * point / (RANGE_PREVIEW_PARTICLE_COUNT * levels);
             double particleX = centerX + Math.cos(angle) * getRange(levels);
             double particleZ = centerZ + Math.sin(angle) * getRange(levels);
 
@@ -150,14 +150,16 @@ public class FancyLanternEntity extends BlockEntity {
         }
     }
 
-    private static int getRange(int lanternLevel){
-        switch (lanternLevel){
+    private static int getRange(int lanternLevel) {
+        switch (lanternLevel) {
             case 1:
                 return Config.regularLanternRange;
             case 2:
                 return Config.upgradedLanternRangeI;
             case 3:
                 return Config.upgradedLanternRangeII;
+            case 4:
+                return Config.permanentLanternRange;
             default:
                 return 1;
         }
@@ -171,6 +173,7 @@ public class FancyLanternEntity extends BlockEntity {
         return switch (lantern.levels) {
             case 2 -> ModBlocks.MURKY_LANTERN_UPGRADE_I.get();
             case 3 -> ModBlocks.MURKY_LANTERN_UPGRADE_II.get();
+            case 4 -> ModBlocks.MURKY_LANTERN_PERMANENT.get();
             default -> ModBlocks.MURKY_LANTERN.get();
         };
     }
@@ -179,7 +182,7 @@ public class FancyLanternEntity extends BlockEntity {
             Level level, BlockPos pos, FancyLanternEntity beaconLevel, @Nullable Holder<MobEffect> primaryEffect) {
         if (!level.isClientSide && primaryEffect != null) {
 //            double range = (double)(beaconLevel * 10 + 10);
-            int amplifier = 0;
+            int amplifier = beaconLevel.levels - 1;
 
             int duration = (9 + beaconLevel.levels * 2) * 20;
             AABB aabb = new AABB(pos)
@@ -189,7 +192,7 @@ public class FancyLanternEntity extends BlockEntity {
 
             for (Player player : list) {
                 boolean wasApplied = player.addEffect(new MobEffectInstance(primaryEffect, duration, amplifier, true, true));
-                if (wasApplied){
+                if (wasApplied) {
                     beaconLevel.usesRemaining--;
                 }
             }

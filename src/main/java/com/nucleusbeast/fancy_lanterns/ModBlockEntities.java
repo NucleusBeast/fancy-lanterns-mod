@@ -3,8 +3,10 @@ package com.nucleusbeast.fancy_lanterns;
 import com.nucleusbeast.fancy_lanterns.blocks.FancyLanternEntity;
 import com.nucleusbeast.fancy_lanterns.blocks.ModBlocks;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.function.Supplier;
@@ -17,17 +19,9 @@ public class ModBlockEntities {
     public static final Supplier<BlockEntityType<FancyLanternEntity>> MURKY_LANTERN_ENTITY =
             BLOCK_ENTITIES.register("murky_lantern_entity", () -> BlockEntityType.Builder.of(
                     FancyLanternEntity::new,
-                    ModBlocks.MURKY_LANTERN.get(),
-                    ModBlocks.HASTY_LANTERN.get(),
-                    ModBlocks.HEALTHY_LANTERN.get(),
-                    ModBlocks.ABSORBY_LANTERN.get(),
-                    ModBlocks.SPEEDY_LANTERN.get(),
-                    ModBlocks.JUMPY_LANTERN.get(),
-                    ModBlocks.STRENGTHY_LANTERN.get(),
-                    ModBlocks.SATURATY_LANTERN.get(),
-                    ModBlocks.LUCKY_LANTERN.get(),
-                    ModBlocks.NIGHTY_LANTERN.get(),
-                    ModBlocks.BREATHY_LANTERN.get()
+                    ModBlocks.EFFECT_LANTERNS.stream()
+                            .map(DeferredBlock::get)
+                            .toArray(Block[]::new)
                     ).build(null));
 
     public static void register(IEventBus bus) {

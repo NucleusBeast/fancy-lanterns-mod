@@ -31,12 +31,6 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 //                .unlockedBy("has_obsidian_redstone_emerald_nucleus_pearl", hasItems(Items.REDSTONE, Items.OBSIDIAN, Items.EMERALD, ModItems.NUCLEUS_CORE.get()))
 //                .save(recipeOutput);
 //
-//        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.NUCLEUS_CORE.get(), 1)
-//                .requires(Items.ENDER_PEARL)
-//                .requires(Items.GUNPOWDER)
-//                .unlockedBy("has_ender_pearl_gun_powder", hasItems(Items.ENDER_PEARL, Items.GUNPOWDER))
-//                .save(recipeOutput);
-//
 //        // Second recipe for same item with different ingredients
 //        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.NUCLEUS_CORE.get(), 1)
 //                .requires(Items.ENDER_PEARL)
@@ -46,7 +40,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModBlocks.MURKY_LANTERN.get(), 1)
                 .requires(Items.LANTERN)
-                .requires(Items.GOLDEN_APPLE)
+                .requires(Items.WATER_BUCKET)
                 .unlockedBy("has_lantern_item", hasItems(Items.LANTERN))
                 .save(recipeOutput);
     }

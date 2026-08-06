@@ -7,6 +7,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
 
 public class ModItemModelProvider extends ItemModelProvider {
@@ -16,27 +17,23 @@ public class ModItemModelProvider extends ItemModelProvider {
 
     @Override
     protected void registerModels() {
+        ModBlocks.ALL_LANTERNS.forEach(this::lanternItem);
+    }
 
-        // items
-        basicItem(ModBlocks.MURKY_LANTERN.asItem());
-        basicItem(ModBlocks.MURKY_LANTERN_UPGRADE_I.asItem());
-        basicItem(ModBlocks.MURKY_LANTERN_UPGRADE_II.asItem());
-        basicItem(ModBlocks.MURKY_LANTERN_PERMANENT.asItem());
+    private void lanternItem(DeferredBlock<?> block) {
+        String blockName = block.getId().getPath();
 
-        basicItem(ModBlocks.HEALTHY_LANTERN.asItem());
-        basicItem(ModBlocks.HASTY_LANTERN.asItem());
-        basicItem(ModBlocks.JUMPY_LANTERN.asItem());
-        basicItem(ModBlocks.SPEEDY_LANTERN.asItem());
-        basicItem(ModBlocks.SATURATY_LANTERN.asItem());
-        basicItem(ModBlocks.STRENGTHY_LANTERN.asItem());
-        basicItem(ModBlocks.BREATHY_LANTERN.asItem());
-        basicItem(ModBlocks.FIERY_LANTERN.asItem());
-        basicItem(ModBlocks.NIGHTY_LANTERN.asItem());
-        basicItem(ModBlocks.LUCKY_LANTERN.asItem());
-        basicItem(ModBlocks.ABSORBY_LANTERN.asItem());
+        if (blockName.contains("murky")){
+            basicItem(block.asItem());
+            return;
+        }
 
+        if (blockName.contains("_upgrade_") || blockName.startsWith("permanent_")) {
+            withExistingParent(blockName, modLoc("block/" + blockName));
+            return;
+        }
 
-//        handheldItem(ModItems.MAJESTIC_STICK.get());
+        basicItem(block.asItem());
     }
 
     private ItemModelBuilder handheldItem(DeferredItem<?> item){
