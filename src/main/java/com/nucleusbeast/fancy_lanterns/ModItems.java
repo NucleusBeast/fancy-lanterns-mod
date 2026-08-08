@@ -21,25 +21,7 @@ public class ModItems {
                     .title(Component.translatable("itemGroup.fancy_lanterns"))
                     .icon(() -> new ItemStack(ModBlocks.HEALTHY_LANTERN.get()))
                     .displayItems((itemDisplayParameters, output) -> {
-
-                        // Blocks
-                        output.accept(ModBlocks.HEALTHY_LANTERN.get());
-                        output.accept(ModBlocks.HASTY_LANTERN.get());
-                        output.accept(ModBlocks.ABSORBY_LANTERN.get());
-                        output.accept(ModBlocks.SPEEDY_LANTERN.get());
-                        output.accept(ModBlocks.JUMPY_LANTERN.get());
-                        output.accept(ModBlocks.STRENGTHY_LANTERN.get());
-                        output.accept(ModBlocks.SATURATY_LANTERN.get());
-                        output.accept(ModBlocks.NIGHTY_LANTERN.get());
-                        output.accept(ModBlocks.LUCKY_LANTERN.get());
-                        output.accept(ModBlocks.BREATHY_LANTERN.get());
-
-                        output.accept(ModBlocks.MURKY_LANTERN.get());
-                        output.accept(ModBlocks.MURKY_LANTERN_UPGRADE_I.get());
-                        output.accept(ModBlocks.MURKY_LANTERN_UPGRADE_II.get());
-                        output.accept(ModBlocks.MURKY_LANTERN_PERMANENT.get());
-                        // Items
-//                        output.accept(ModItems.NUCLEUS_CORE.get());
+                        ModBlocks.ALL_LANTERNS.forEach(lantern -> output.accept(lantern.get()));
                     })
                     .build());
 
