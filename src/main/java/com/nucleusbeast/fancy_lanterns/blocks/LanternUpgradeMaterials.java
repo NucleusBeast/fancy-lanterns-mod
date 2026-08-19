@@ -1,20 +1,25 @@
 package com.nucleusbeast.fancy_lanterns.blocks;
 
-import com.nucleusbeast.fancy_lanterns.Config;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 
-import java.util.Set;
-
-final class LanternUpgradeMaterials {
-    private LanternUpgradeMaterials() {
+public final class LanternUpgradeMaterials {
+    public LanternUpgradeMaterials() {
     }
 
-    static Set<Item> forLevel(int level) {
+    public static TagKey<Item> forLevel(int level) {
         return switch (level) {
-            case 1 -> Config.upgradeItemsToLevel1;
-            case 2 -> Config.upgradeItemsToLevel2;
-            case 3 -> Config.upgradeItemsToPermanent;
-            default -> Set.of();
+            case 1 -> tag("lantern_upgrade_level_1");
+            case 2 -> tag("lantern_upgrade_level_2");
+            case 3 -> tag("lantern_upgrade_level_3");
+            default -> null;
         };
+    }
+
+    static TagKey<Item> tag(String name) {
+        return TagKey.create(Registries.ITEM,
+                net.minecraft.resources.ResourceLocation.fromNamespaceAndPath(
+                        "fancy_lanterns", name));
     }
 }

@@ -2,6 +2,8 @@ package com.nucleusbeast.fancy_lanterns.blocks;
 
 import com.nucleusbeast.fancy_lanterns.FancyLanterns;
 import com.nucleusbeast.fancy_lanterns.ModItems;
+import com.nucleusbeast.fancy_lanterns.blocks.fancy_lantern.FancyLanternBlock;
+import com.nucleusbeast.fancy_lanterns.blocks.fizzeled_lantern.FizzeledLanternBlock;
 import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ColorParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
@@ -134,7 +136,11 @@ public final class ModBlocks {
     }
 
     private static ParticleOptions coloredEffectParticle() {
-        return ColorParticleOption.create(ParticleTypes.ENTITY_EFFECT, 1.0F, 0.85F, 0.1F);
+        return coloredEffectParticle(1.0F, 0.85F, 0.1F);
+    }
+
+    private static ParticleOptions coloredEffectParticle(float red, float green, float blue) {
+        return ColorParticleOption.create(ParticleTypes.ENTITY_EFFECT, red, green, blue);
     }
 
     private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {

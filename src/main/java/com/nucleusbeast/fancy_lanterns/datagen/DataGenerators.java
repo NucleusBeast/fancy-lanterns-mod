@@ -8,7 +8,6 @@ import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 
@@ -31,9 +30,8 @@ public class DataGenerators {
         ), lookupProvider));
         gen.addProvider(event.includeServer(), new ModRecipeProvider(output, lookupProvider));
 //
-//        BlockTagsProvider blockTagsProvider = new ModBlockTagProvider(output, lookupProvider, existingFileHelper);
-//        gen.addProvider(event.includeServer(), blockTagsProvider);
-//        gen.addProvider(event.includeServer(), new ModItemTagProvider(output, lookupProvider, blockTagsProvider.contentsGetter(), existingFileHelper));
+        gen.addProvider(event.includeServer(), new ModItemTagProvider(
+                output, lookupProvider, existingFileHelper));
 //
         gen.addProvider(event.includeClient(), new ModBlockStateProvider(output, existingFileHelper));
         gen.addProvider(event.includeClient(), new ModItemModelProvider(output, existingFileHelper));

@@ -1,17 +1,22 @@
-package com.nucleusbeast.fancy_lanterns.blocks;
+package com.nucleusbeast.fancy_lanterns.blocks.fizzeled_lantern;
 
+import com.nucleusbeast.fancy_lanterns.blocks.LanternStateProperties;
+import com.nucleusbeast.fancy_lanterns.blocks.LanternUpgradeMaterials;
+import com.nucleusbeast.fancy_lanterns.blocks.ModBlocks;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LanternBlock;
@@ -22,6 +27,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Map;
 
 public class FizzeledLanternBlock extends LanternBlock {
@@ -31,26 +37,34 @@ public class FizzeledLanternBlock extends LanternBlock {
                 .setValue(LanternStateProperties.LEVEL, LanternStateProperties.MIN_LEVEL));
     }
 
-    private static final Map<Item, DeferredBlock<Block>> RELIGHT_MATERIAL =
-            Map.ofEntries(
-                    Map.entry(Items.GOLDEN_APPLE, ModBlocks.HEALTHY_LANTERN),
-                    Map.entry(Items.IRON_SWORD, ModBlocks.STRENGTHY_LANTERN),
-                    Map.entry(Items.GOLD_BLOCK, ModBlocks.ABSORBY_LANTERN),
-                    Map.entry(Items.IRON_BOOTS, ModBlocks.SPEEDY_LANTERN),
-                    Map.entry(Items.RABBIT_HIDE, ModBlocks.JUMPY_LANTERN),
-                    Map.entry(Items.SOUL_TORCH, ModBlocks.NIGHTY_LANTERN),
-                    Map.entry(Items.RABBIT_FOOT, ModBlocks.LUCKY_LANTERN),
-                    Map.entry(Items.IRON_PICKAXE, ModBlocks.HASTY_LANTERN),
-                    Map.entry(Items.APPLE, ModBlocks.SATURATY_LANTERN),
-                    Map.entry(Items.FLINT_AND_STEEL, ModBlocks.FIERY_LANTERN),
-                    Map.entry(Items.NAUTILUS_SHELL, ModBlocks.BREATHY_LANTERN)
-            );
+    private static final List<Map.Entry<TagKey<Item>, DeferredBlock<Block>>> RELIGHT_MATERIAL = List.of(
+            relightTag("healthy_lantern", ModBlocks.HEALTHY_LANTERN),
+            relightTag("strengthy_lantern", ModBlocks.STRENGTHY_LANTERN),
+            relightTag("absorby_lantern", ModBlocks.ABSORBY_LANTERN),
+            relightTag("speedy_lantern", ModBlocks.SPEEDY_LANTERN),
+            relightTag("jumpy_lantern", ModBlocks.JUMPY_LANTERN),
+            relightTag("nighty_lantern", ModBlocks.NIGHTY_LANTERN),
+            relightTag("lucky_lantern", ModBlocks.LUCKY_LANTERN),
+            relightTag("hasty_lantern", ModBlocks.HASTY_LANTERN),
+            relightTag("saturaty_lantern", ModBlocks.SATURATY_LANTERN),
+            relightTag("fiery_lantern", ModBlocks.FIERY_LANTERN),
+            relightTag("breathy_lantern", ModBlocks.BREATHY_LANTERN)
+    );
+
+    private static Map.Entry<TagKey<Item>, DeferredBlock<Block>> relightTag(
+            String lantern, DeferredBlock<Block> block) {
+        return Map.entry(TagKey.create(Registries.ITEM,
+                ResourceLocation.fromNamespaceAndPath(
+                        com.nucleusbeast.fancy_lanterns.FancyLanterns.MODID,
+                        "relights/" + lantern)), block);
+    }
 
     @Override
     protected @NotNull InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
         if (!level.isClientSide && player instanceof ServerPlayer serverPlayer) {
             if (player.isShiftKeyDown()) {
-                player.displayClientMessage(Component.literal("This lantern has fizzled! Add fuel!"), true);
+                player.displayClientMessage(Component.translatable(
+                        "block.fancy_lanterns.murky_lantern.fizzled"), true);
             }
         }
 
@@ -59,7 +73,11 @@ public class FizzeledLanternBlock extends LanternBlock {
 
     @Override
     protected ItemInteractionResult useItemOn(ItemStack itemStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand interactionHand, BlockHitResult hitResult) {
-        DeferredBlock<Block> relitBlock = RELIGHT_MATERIAL.get(itemStack.getItem());
+        DeferredBlock<Block> relitBlock = RELIGHT_MATERIAL.stream()
+                .filter(entry -> itemStack.is(entry.getKey()))
+                .map(Map.Entry::getValue)
+                .findFirst()
+                .orElse(null);
         if (relitBlock != null) {
             if (!level.isClientSide) {
                 BlockState relitState = relitBlock.get()
@@ -88,7 +106,7 @@ public class FizzeledLanternBlock extends LanternBlock {
         if (currentLevel >= LanternStateProperties.MAX_LEVEL) {
             return ItemInteractionResult.SKIP_DEFAULT_BLOCK_INTERACTION;
         }
-        if (LanternUpgradeMaterials.forLevel(currentLevel).contains(itemStack.getItem())) {
+        if (itemStack.is(LanternUpgradeMaterials.forLevel(currentLevel))) {
             if (!level.isClientSide) {
                 level.setBlockAndUpdate(
                         pos,

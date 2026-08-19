@@ -1,6 +1,8 @@
-package com.nucleusbeast.fancy_lanterns.blocks;
+package com.nucleusbeast.fancy_lanterns.blocks.fancy_lantern;
 
 import com.nucleusbeast.fancy_lanterns.ModBlockEntities;
+import com.nucleusbeast.fancy_lanterns.blocks.LanternStateProperties;
+import com.nucleusbeast.fancy_lanterns.blocks.LanternUpgradeMaterials;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleOptions;
@@ -94,7 +96,7 @@ public class FancyLanternBlock extends LanternBlock implements EntityBlock {
             return ItemInteractionResult.SKIP_DEFAULT_BLOCK_INTERACTION;
         }
 
-        if (LanternUpgradeMaterials.forLevel(currentLevel).contains(itemStack.getItem())) {
+        if (itemStack.is(LanternUpgradeMaterials.forLevel(currentLevel))) {
             if (!level.isClientSide) {
                 int upgradedLevel = currentLevel + 1;
                 level.setBlockAndUpdate(pos, state.setValue(LanternStateProperties.LEVEL, upgradedLevel));

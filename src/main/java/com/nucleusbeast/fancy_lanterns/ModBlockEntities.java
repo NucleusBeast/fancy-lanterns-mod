@@ -1,7 +1,7 @@
 package com.nucleusbeast.fancy_lanterns;
 
-import com.nucleusbeast.fancy_lanterns.blocks.FancyLanternEntity;
 import com.nucleusbeast.fancy_lanterns.blocks.ModBlocks;
+import com.nucleusbeast.fancy_lanterns.blocks.fancy_lantern.FancyLanternEntity;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;

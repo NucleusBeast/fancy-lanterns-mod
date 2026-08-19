@@ -1,7 +1,9 @@
-package com.nucleusbeast.fancy_lanterns.blocks;
+package com.nucleusbeast.fancy_lanterns.blocks.fancy_lantern;
 
 import com.nucleusbeast.fancy_lanterns.Config;
 import com.nucleusbeast.fancy_lanterns.ModBlockEntities;
+import com.nucleusbeast.fancy_lanterns.blocks.LanternStateProperties;
+import com.nucleusbeast.fancy_lanterns.blocks.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleOptions;
@@ -19,11 +21,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.AABB;
 
 import javax.annotation.Nullable;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import static net.minecraft.world.level.block.entity.BeaconBlockEntity.playSound;
 
@@ -32,7 +30,6 @@ public class FancyLanternEntity extends BlockEntity {
     private static final int RANGE_PREVIEW_DURATION_TICKS = 5 * 20;
     private static final int RANGE_PREVIEW_INTERVAL_TICKS = 5;
     private static final int RANGE_PREVIEW_PARTICLE_COUNT = 48;
-    private static final int MAX_USES_PER_LEVEL = 5;
 
     private final Map<UUID, Long> rangePreviewEndTimes = new HashMap<>();
 
@@ -45,11 +42,14 @@ public class FancyLanternEntity extends BlockEntity {
 
     public Holder<MobEffect> primaryPower;
     public ParticleOptions particleTypes;
-
     private int usesRemaining = 0;
 
     void resetUsesForLevel(int lanternLevel) {
-        this.usesRemaining = MAX_USES_PER_LEVEL * lanternLevel;
+        this.usesRemaining = switch (lanternLevel) {
+            case 1 -> Config.regularLantern_Uses;
+            case 2 -> Config.upgradedLanternI_Uses;
+            default -> Config.upgradedLanternII_Uses;
+        };
         setChanged();
     }
 
@@ -150,18 +150,13 @@ public class FancyLanternEntity extends BlockEntity {
     }
 
     private static int getRange(int lanternLevel) {
-        switch (lanternLevel) {
-            case 1:
-                return Config.regularLanternRange;
-            case 2:
-                return Config.upgradedLanternRangeI;
-            case 3:
-                return Config.upgradedLanternRangeII;
-            case 4:
-                return Config.permanentLanternRange;
-            default:
-                return 1;
-        }
+        return switch (lanternLevel) {
+            case 1 -> Config.regularLanternRange;
+            case 2 -> Config.upgradedLanternRangeI;
+            case 3 -> Config.upgradedLanternRangeII;
+            case 4 -> Config.permanentLanternRange;
+            default -> 1;
+        };
     }
 
     private static BlockState getFizzledLanternState(BlockState state, int lanternLevel) {
@@ -189,9 +184,14 @@ public class FancyLanternEntity extends BlockEntity {
             int lanternLevel,
             @Nullable Holder<MobEffect> primaryEffect) {
         if (!level.isClientSide && primaryEffect != null) {
-            int amplifier = lanternLevel - 1;
 
-            int duration = (9 + lanternLevel * 2) * 20;
+            int amplifier = (Config.effectAmplifier ? lanternLevel - 1 : 1);
+            int duration = switch (lanternLevel) {
+                case 1 -> Config.regularLantern_EffectDuration;
+                case 2 -> Config.upgradedLanternI_EffectDuration;
+                default -> Config.upgradedLanternII_EffectDuration;
+            };
+            duration *= 20;
             AABB aabb = new AABB(pos)
                     .inflate(getRange(lanternLevel))
                     .expandTowards(0.0, getRange(lanternLevel) * 1.5D, 0.0);
