@@ -6,8 +6,8 @@ import com.nucleusbeast.fancy_lanterns.blocks.ModBlocks;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.LanternBlock;
-import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 import net.neoforged.neoforge.client.model.generators.BlockModelBuilder;
+import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.client.model.generators.loaders.CompositeModelBuilder;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
@@ -36,7 +36,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         for (int level = LanternStateProperties.MIN_LEVEL;
              level <= LanternStateProperties.MAX_LEVEL;
              level++) {
-            ResourceLocation borderTexture = modLoc("block/lantern/borders/level_" + level);
+            ResourceLocation borderTexture = getBorderTexture(familyName, level);
             String levelModelName = blockName + "_level_" + level;
 
             ModelFile standingModel = layeredLanternModel(
@@ -66,6 +66,14 @@ public class ModBlockStateProvider extends BlockStateProvider {
                     .modelFile(hangingModel)
                     .addModel();
         }
+    }
+
+    private ResourceLocation getBorderTexture(String familyName, int level) {
+        if (level == LanternStateProperties.MAX_LEVEL) {
+            return modLoc("block/lantern/borders/level_4/" + familyName);
+        }
+
+        return modLoc("block/lantern/borders/level_" + level);
     }
 
     private ModelFile layeredLanternModel(

@@ -43,6 +43,7 @@ public class FancyLanternEntity extends BlockEntity {
     public Holder<MobEffect> primaryPower;
     public ParticleOptions particleTypes;
     private int usesRemaining = 0;
+    private float effectDuration = 0;
 
     void resetUsesForLevel(int lanternLevel) {
         this.usesRemaining = switch (lanternLevel) {
@@ -79,7 +80,21 @@ public class FancyLanternEntity extends BlockEntity {
 
                     return;
                 }
-                applyEffects(level, pos, blockEntity, lanternLevel, blockEntity.primaryPower);
+
+                int duration = switch (lanternLevel) {
+                    case 1 -> Config.regularLantern_EffectDuration;
+                    case 2 -> Config.upgradedLanternI_EffectDuration;
+                    default -> Config.upgradedLanternII_EffectDuration;
+                };
+
+                if (blockEntity.effectDuration >= 4) {
+                    blockEntity.effectDuration -= 4f;
+                    return;
+                }
+                blockEntity.effectDuration = duration;
+                blockEntity.effectDuration -= 4f;
+                duration *= 20;
+                applyEffects(level, pos, blockEntity, lanternLevel, blockEntity.primaryPower, duration);
                 playSound(level, pos, SoundEvents.ITEM_PICKUP);
 
 
@@ -182,16 +197,11 @@ public class FancyLanternEntity extends BlockEntity {
             BlockPos pos,
             FancyLanternEntity lantern,
             int lanternLevel,
-            @Nullable Holder<MobEffect> primaryEffect) {
+            @Nullable Holder<MobEffect> primaryEffect,
+            int duration) {
         if (!level.isClientSide && primaryEffect != null) {
 
             int amplifier = (Config.effectAmplifier ? lanternLevel - 1 : 1);
-            int duration = switch (lanternLevel) {
-                case 1 -> Config.regularLantern_EffectDuration;
-                case 2 -> Config.upgradedLanternI_EffectDuration;
-                default -> Config.upgradedLanternII_EffectDuration;
-            };
-            duration *= 20;
             AABB aabb = new AABB(pos)
                     .inflate(getRange(lanternLevel))
                     .expandTowards(0.0, getRange(lanternLevel) * 1.5D, 0.0);

@@ -104,7 +104,7 @@ public class FizzeledLanternBlock extends LanternBlock {
 
         int currentLevel = state.getValue(LanternStateProperties.LEVEL);
         if (currentLevel >= LanternStateProperties.MAX_LEVEL) {
-            return ItemInteractionResult.SKIP_DEFAULT_BLOCK_INTERACTION;
+            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         }
         if (itemStack.is(LanternUpgradeMaterials.forLevel(currentLevel))) {
             if (!level.isClientSide) {

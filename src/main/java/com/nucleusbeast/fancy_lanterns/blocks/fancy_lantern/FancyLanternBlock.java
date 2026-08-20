@@ -93,7 +93,7 @@ public class FancyLanternBlock extends LanternBlock implements EntityBlock {
     protected ItemInteractionResult useItemOn(ItemStack itemStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand interactionHand, BlockHitResult hitResult) {
         int currentLevel = state.getValue(LanternStateProperties.LEVEL);
         if (currentLevel >= LanternStateProperties.MAX_LEVEL) {
-            return ItemInteractionResult.SKIP_DEFAULT_BLOCK_INTERACTION;
+            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         }
 
         if (itemStack.is(LanternUpgradeMaterials.forLevel(currentLevel))) {
