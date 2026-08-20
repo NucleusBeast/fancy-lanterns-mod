@@ -10,6 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -34,7 +35,8 @@ public class FizzeledLanternBlock extends LanternBlock {
     public FizzeledLanternBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(this.defaultBlockState()
-                .setValue(LanternStateProperties.LEVEL, LanternStateProperties.MIN_LEVEL));
+                .setValue(LanternStateProperties.LEVEL, LanternStateProperties.MIN_LEVEL)
+                .setValue(LanternStateProperties.MUTED, false));
     }
 
     private static final List<Map.Entry<TagKey<Item>, DeferredBlock<Block>>> RELIGHT_MATERIAL = List.of(
@@ -73,6 +75,16 @@ public class FizzeledLanternBlock extends LanternBlock {
 
     @Override
     protected ItemInteractionResult useItemOn(ItemStack itemStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand interactionHand, BlockHitResult hitResult) {
+        if (!state.getValue(LanternStateProperties.MUTED) && itemStack.is(ItemTags.WOOL)) {
+            if (!level.isClientSide) {
+                level.setBlockAndUpdate(pos, state.setValue(LanternStateProperties.MUTED, true));
+                itemStack.consume(1, player);
+                level.playSound(null, pos, SoundEvents.WOOL_PLACE, SoundSource.BLOCKS);
+            }
+
+            return ItemInteractionResult.SUCCESS;
+        }
+
         DeferredBlock<Block> relitBlock = RELIGHT_MATERIAL.stream()
                 .filter(entry -> itemStack.is(entry.getKey()))
                 .map(Map.Entry::getValue)
@@ -93,6 +105,10 @@ public class FizzeledLanternBlock extends LanternBlock {
                         .setValue(
                                 BlockStateProperties.WATERLOGGED,
                                 state.getValue(BlockStateProperties.WATERLOGGED)
+                        )
+                        .setValue(
+                                LanternStateProperties.MUTED,
+                                state.getValue(LanternStateProperties.MUTED)
                         );
                 level.setBlockAndUpdate(pos, relitState);
                 itemStack.consume(1, player);
@@ -125,6 +141,6 @@ public class FizzeledLanternBlock extends LanternBlock {
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
-        builder.add(LanternStateProperties.LEVEL);
+        builder.add(LanternStateProperties.LEVEL, LanternStateProperties.MUTED);
     }
 }

@@ -3,6 +3,8 @@ package com.nucleusbeast.fancy_lanterns.datagen;
 import com.nucleusbeast.fancy_lanterns.FancyLanterns;
 import com.nucleusbeast.fancy_lanterns.blocks.LanternStateProperties;
 import com.nucleusbeast.fancy_lanterns.blocks.ModBlocks;
+import com.nucleusbeast.fancy_lanterns.blocks.fancy_lantern.FancyLanternBlock;
+import com.nucleusbeast.fancy_lanterns.blocks.fizzeled_lantern.FizzeledLanternBlock;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.LanternBlock;
@@ -12,6 +14,8 @@ import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.client.model.generators.loaders.CompositeModelBuilder;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredBlock;
+
+import static com.nucleusbeast.fancy_lanterns.blocks.LanternStateProperties.MUTED;
 
 public class ModBlockStateProvider extends BlockStateProvider {
     private static final String LANTERN_MARKER = "_lantern";
@@ -36,39 +40,71 @@ public class ModBlockStateProvider extends BlockStateProvider {
         for (int level = LanternStateProperties.MIN_LEVEL;
              level <= LanternStateProperties.MAX_LEVEL;
              level++) {
-            ResourceLocation borderTexture = getBorderTexture(familyName, level);
-            String levelModelName = blockName + "_level_" + level;
+            boolean supportsMutedState = block.get() instanceof FancyLanternBlock
+                    || block.get() instanceof FizzeledLanternBlock;
+            for (boolean muted : supportsMutedState ? new boolean[]{false, true} : new boolean[]{false}) {
+                ResourceLocation borderTexture = getBorderTexture(familyName, level, muted);
+                String levelModelName = blockName + "_level_" + level + (muted ? "_muted" : "");
 
-            ModelFile standingModel = layeredLanternModel(
-                    levelModelName,
-                    modLoc("block/template_fancy_lantern"),
-                    flameTexture,
-                    borderTexture
-            );
-            ModelFile hangingModel = layeredLanternModel(
-                    levelModelName + "_hanging",
-                    modLoc("block/template_fancy_hanging_lantern"),
-                    flameTexture,
-                    borderTexture
-            );
+                ModelFile standingModel = layeredLanternModel(
+                        levelModelName,
+                        modLoc("block/template_fancy_lantern"),
+                        flameTexture,
+                        borderTexture
+                );
+                ModelFile hangingModel = layeredLanternModel(
+                        levelModelName + "_hanging",
+                        modLoc("block/template_fancy_hanging_lantern"),
+                        flameTexture,
+                        borderTexture
+                );
 
-            getVariantBuilder(block.get())
-                    .partialState()
-                    .with(LanternBlock.HANGING, false)
-                    .with(LanternStateProperties.LEVEL, level)
-                    .modelForState()
-                    .modelFile(standingModel)
-                    .addModel()
-                    .partialState()
-                    .with(LanternBlock.HANGING, true)
-                    .with(LanternStateProperties.LEVEL, level)
-                    .modelForState()
-                    .modelFile(hangingModel)
-                    .addModel();
+                if (supportsMutedState) {
+                    getVariantBuilder(block.get())
+                            .partialState()
+                            .with(LanternBlock.HANGING, false)
+                            .with(LanternStateProperties.LEVEL, level)
+                            .with(MUTED, muted)
+                            .modelForState()
+                            .modelFile(standingModel)
+                            .addModel();
+                    getVariantBuilder(block.get())
+                            .partialState()
+                            .with(LanternBlock.HANGING, true)
+                            .with(LanternStateProperties.LEVEL, level)
+                            .with(MUTED, muted)
+                            .modelForState()
+                            .modelFile(hangingModel)
+                            .addModel();
+                } else {
+                    getVariantBuilder(block.get())
+                            .partialState()
+                            .with(LanternBlock.HANGING, false)
+                            .with(LanternStateProperties.LEVEL, level)
+                            .modelForState()
+                            .modelFile(standingModel)
+                            .addModel();
+                    getVariantBuilder(block.get())
+                            .partialState()
+                            .with(LanternBlock.HANGING, true)
+                            .with(LanternStateProperties.LEVEL, level)
+                            .modelForState()
+                            .modelFile(hangingModel)
+                            .addModel();
+                }
+            }
         }
     }
 
-    private ResourceLocation getBorderTexture(String familyName, int level) {
+    private ResourceLocation getBorderTexture(String familyName, int level, boolean muted) {
+        if (muted) {
+            if (level == LanternStateProperties.MAX_LEVEL) {
+                return modLoc("block/lantern/muted_borders/level_4/" + familyName);
+            }
+
+            return modLoc("block/lantern/muted_borders/level_" + level);
+        }
+
         if (level == LanternStateProperties.MAX_LEVEL) {
             return modLoc("block/lantern/borders/level_4/" + familyName);
         }

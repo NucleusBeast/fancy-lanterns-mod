@@ -32,6 +32,7 @@ public class Config {
     private static final ModConfigSpec.BooleanValue RETAIN_LEVEL = BUILDER.comment("Whether to lantern retains the level after expiring").define("retainLanternLevel", true);
     private static final ModConfigSpec.BooleanValue FIZZLES_OUT = BUILDER.comment("Whether lanterns ever expire").define("does_fizzles_out", true);
     private static final ModConfigSpec.BooleanValue EFFECT_AMPLIFIER = BUILDER.comment("Whether the effect gets amplified by lantern level").define("effect_amplified_by_level", true);
+    private static final ModConfigSpec.BooleanValue MUTING_AFFECTS_EFFECT = BUILDER.comment("Whether muting the lanterns also disables the effects of those lanterns").define("does_muting_disable_effects", false);
     private static final ModConfigSpec.BooleanValue ENABLE_PARTICLES = BUILDER.comment("Whether to show particles of lantern effect").define("enable_particle_effects", true);
     private static final ModConfigSpec.BooleanValue ENABLE_SOUNDS = BUILDER.comment("Whether to play the sound on lantern effect trigger").define("enable_sound_effects", true);
     private static final ModConfigSpec.BooleanValue ENABLE_PREVIEW = BUILDER.comment("Whether to allow player to sneak click the lantern to show the radius of the lantern effects.").define("enable_preview_effects", true);
@@ -59,6 +60,7 @@ public class Config {
     public static boolean doesFizzleOut;
     public static boolean retainLanterLevel;
     public static boolean effectAmplifier;
+    public static boolean mutingAffectsEffect;
     public static boolean enableParticles;
     public static boolean enableSoundEffects;
     public static boolean enableRangePreview;
@@ -88,6 +90,7 @@ public class Config {
         retainLanterLevel = RETAIN_LEVEL.get();
         doesFizzleOut = FIZZLES_OUT.get();
         effectAmplifier = EFFECT_AMPLIFIER.get();
+        mutingAffectsEffect = MUTING_AFFECTS_EFFECT.get();
 
         enableParticles = ENABLE_PARTICLES.get();
         enableRangePreview = ENABLE_PREVIEW.get();

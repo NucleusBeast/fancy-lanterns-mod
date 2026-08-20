@@ -10,6 +10,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
@@ -25,7 +26,6 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -39,13 +39,11 @@ public class FancyLanternBlock extends LanternBlock implements EntityBlock {
 
         this.registerDefaultState(this.defaultBlockState()
                 .setValue(LanternStateProperties.LEVEL, LanternStateProperties.MIN_LEVEL)
-                .setValue(MUTED, false));
+                .setValue(LanternStateProperties.MUTED, false));
     }
 
     private final Holder<MobEffect> effect;
     private final ParticleOptions particleType;
-
-    public static final BooleanProperty MUTED = BooleanProperty.create("muted");
 
     public Holder<MobEffect> getEffect() {
         return effect;
@@ -91,6 +89,16 @@ public class FancyLanternBlock extends LanternBlock implements EntityBlock {
 
     @Override
     protected ItemInteractionResult useItemOn(ItemStack itemStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand interactionHand, BlockHitResult hitResult) {
+        if (!state.getValue(LanternStateProperties.MUTED) && itemStack.is(ItemTags.WOOL)) {
+            if (!level.isClientSide) {
+                level.setBlockAndUpdate(pos, state.setValue(LanternStateProperties.MUTED, true));
+                itemStack.consume(1, player);
+                level.playSound(null, pos, SoundEvents.WOOL_PLACE, SoundSource.BLOCKS);
+            }
+
+            return ItemInteractionResult.SUCCESS;
+        }
+
         int currentLevel = state.getValue(LanternStateProperties.LEVEL);
         if (currentLevel >= LanternStateProperties.MAX_LEVEL) {
             return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
@@ -119,6 +127,6 @@ public class FancyLanternBlock extends LanternBlock implements EntityBlock {
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
         super.createBlockStateDefinition(pBuilder);
-        pBuilder.add(LanternStateProperties.LEVEL, MUTED);
+        pBuilder.add(LanternStateProperties.LEVEL, LanternStateProperties.MUTED);
     }
 }

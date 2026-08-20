@@ -94,7 +94,15 @@ public class FancyLanternEntity extends BlockEntity {
                 blockEntity.effectDuration = duration;
                 blockEntity.effectDuration -= 4f;
                 duration *= 20;
+
+                if (Config.mutingAffectsEffect) {
+                    return;
+                }
                 applyEffects(level, pos, blockEntity, lanternLevel, blockEntity.primaryPower, duration);
+
+                if (state.getValue(LanternStateProperties.MUTED)) {
+                    return;
+                }
                 playSound(level, pos, SoundEvents.ITEM_PICKUP);
 
 
@@ -189,6 +197,10 @@ public class FancyLanternEntity extends BlockEntity {
                 .setValue(
                         BlockStateProperties.WATERLOGGED,
                         state.getValue(BlockStateProperties.WATERLOGGED)
+                )
+                .setValue(
+                        LanternStateProperties.MUTED,
+                        state.getValue(LanternStateProperties.MUTED)
                 );
     }
 
