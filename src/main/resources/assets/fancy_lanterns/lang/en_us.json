@@ -25,8 +25,10 @@
   "item.fancy_lanterns.strengthy_lantern": "Strengthy Lantern",
   "block.fancy_lanterns.breathy_lantern": "Breathy Lantern",
   "item.fancy_lanterns.breathy_lantern": "Breathy Lantern",
-  "jei.fancy_lanterns.upgrade.level_1": "Upgrade from Level 1 to Level 2 by right-clicking the placed lantern with an Iron Ingot or Iron Block. One item is consumed.",
-  "jei.fancy_lanterns.upgrade.level_2": "Upgrade from Level 2 to Level 3 by right-clicking the placed lantern with a Gold Ingot or Iron Block. One item is consumed.",
-  "jei.fancy_lanterns.upgrade.level_3": "Upgrade from Level 3 to Level 4 by right-clicking the placed lantern with a Nether Star, Netherite Scrap, or Nucleus Core. One item is consumed.",
-  "jei.fancy_lanterns.muted": "Mute a placed lantern by right-clicking it with any Wool. One wool is consumed. Muting is permanent; there is no way to unmute the lantern."
+  "jei.fancy_lanterns.relight": "Relight murky lantern by right-clicking it with one of the ingredients used for crafting the lantern with effect.",
+  "jei.fancy_lanterns.upgrade.level_1": "Upgrade from Level 1 to Level 2 by right-clicking the placed lantern with one of: %s.\nOne item is consumed.",
+  "jei.fancy_lanterns.upgrade.level_2": "Upgrade from Level 2 to Level 3 by right-clicking the placed lantern with one of: %s.\nOne item is consumed.",
+  "jei.fancy_lanterns.upgrade.level_3": "Upgrade from Level 3 to Level 4 by right-clicking the placed lantern with one of: %s.\nOne item is consumed.\nLevel 4 lantern will not fizzle out and will permanently give the effect.",
+  "jei.fancy_lanterns.upgrade.no_materials": "No upgrade materials are currently configured.",
+  "jei.fancy_lanterns.muted": "Mute a placed lantern by right-clicking it with any Wool.\nOne wool is consumed."
 }
