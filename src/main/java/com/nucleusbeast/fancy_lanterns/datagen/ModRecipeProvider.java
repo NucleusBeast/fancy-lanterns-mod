@@ -28,6 +28,12 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy("has_lantern_item", hasItems(Items.LANTERN))
                 .save(recipeOutput);
 
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModBlocks.MURKY_LANTERN.get(), 2)
+                .requires(Items.LANTERN)
+                .requires(ModBlocks.MURKY_LANTERN.get())
+                .unlockedBy("has_lantern_item_and_murky_one", hasItems(Items.LANTERN, ModBlocks.MURKY_LANTERN.get()))
+                .save(recipeOutput, "fancy_lanterns:bulk_crafting");
+
         relightRecipe(recipeOutput, ModBlocks.HEALTHY_LANTERN, Items.GOLDEN_APPLE);
         relightRecipe(recipeOutput, ModBlocks.STRENGTHY_LANTERN, Items.IRON_SWORD);
         relightRecipe(recipeOutput, ModBlocks.ABSORBY_LANTERN, Items.GOLD_BLOCK);
