@@ -87,7 +87,7 @@ public class FancyLanternEntity extends BlockEntity {
             blockEntity.tickRangePreview(serverLevel, pos);
         }
 
-        if (level.getGameTime() % 80L == 0L) {
+        if (level.getGameTime() % 20L == 0L) {
             if (lanternLevel > 0) {
                 if (blockEntity.usesRemaining < 1 && Config.doesFizzleOut) {
                     if (!level.isClientSide) {
@@ -104,12 +104,12 @@ public class FancyLanternEntity extends BlockEntity {
                     default -> Config.upgradedLanternII_EffectDuration;
                 };
 
-                if (blockEntity.effectDuration >= 4) {
-                    blockEntity.effectDuration -= 4f;
+                if (blockEntity.effectDuration >= 3) {
+                    blockEntity.effectDuration -= 1f;
                     return;
                 }
                 blockEntity.effectDuration = duration;
-                blockEntity.effectDuration -= 4f;
+                blockEntity.effectDuration -= 1f;
                 duration *= 20;
 
                 if (Config.mutingAffectsEffect) {
@@ -236,9 +236,11 @@ public class FancyLanternEntity extends BlockEntity {
                     .expandTowards(0.0, getRange(lanternLevel) * 1.5D, 0.0);
             List<Player> list = level.getEntitiesOfClass(Player.class, aabb);
 
+            boolean one_per_use = true;
             for (Player player : list) {
                 boolean wasApplied = player.addEffect(new MobEffectInstance(primaryEffect, duration, amplifier, true, true));
-                if (wasApplied) {
+                if (wasApplied && one_per_use) {
+                    one_per_use = false;
                     lantern.usesRemaining--;
                     lantern.setChanged();
                 }
