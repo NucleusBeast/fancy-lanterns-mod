@@ -8,8 +8,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
-
 import java.util.concurrent.CompletableFuture;
 
 public class ModItemTagProvider extends ItemTagsProvider {
@@ -19,10 +17,9 @@ public class ModItemTagProvider extends ItemTagsProvider {
 
     public ModItemTagProvider(
             PackOutput output,
-            CompletableFuture<HolderLookup.Provider> lookupProvider,
-            ExistingFileHelper existingFileHelper) {
+            CompletableFuture<HolderLookup.Provider> lookupProvider) {
         super(output, lookupProvider, CompletableFuture.completedFuture(null),
-                FancyLanterns.MODID, existingFileHelper);
+                FancyLanterns.MODID);
     }
 
     @Override

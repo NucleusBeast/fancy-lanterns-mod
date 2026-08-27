@@ -8,33 +8,41 @@ import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-@EventBusSubscriber(modid = FancyLanterns.MODID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = FancyLanterns.MODID)
 public class DataGenerators {
 
     @SubscribeEvent
-    public static void gatherData(GatherDataEvent event) {
+    public static void gatherClientData(GatherDataEvent.Client event) {
         DataGenerator gen = event.getGenerator();
         PackOutput output = gen.getPackOutput();
-        ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
 
-        gen.addProvider(event.includeServer(), new LootTableProvider(output, Collections.emptySet(), List.of(
+        gen.addProvider(true, new LootTableProvider(output, Collections.emptySet(), List.of(
                 new LootTableProvider.SubProviderEntry(ModBlockLootTableProvider::new, LootContextParamSets.BLOCK)
         ), lookupProvider));
-        gen.addProvider(event.includeServer(), new ModRecipeProvider(output, lookupProvider));
-//
-        gen.addProvider(event.includeServer(), new ModItemTagProvider(
-                output, lookupProvider, existingFileHelper));
-//
-        gen.addProvider(event.includeClient(), new ModBlockStateProvider(output, existingFileHelper));
-        gen.addProvider(event.includeClient(), new ModItemModelProvider(output, existingFileHelper));
-//        gen.addProvider(event.includeClient(), new ModGlobalLootModifierProvider(output, lookupProvider));
+        gen.addProvider(true, new ModRecipeProvider.Runner(output, lookupProvider));
+        gen.addProvider(true, new ModItemTagProvider(
+                output, lookupProvider));
+        gen.addProvider(true, new ModModelProvider(output));
+    }
+
+    @SubscribeEvent
+    public static void gatherServerData(GatherDataEvent.Server event) {
+        DataGenerator gen = event.getGenerator();
+        PackOutput output = gen.getPackOutput();
+        CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
+
+        gen.addProvider(true, new LootTableProvider(output, Collections.emptySet(), List.of(
+                new LootTableProvider.SubProviderEntry(ModBlockLootTableProvider::new, LootContextParamSets.BLOCK)
+        ), lookupProvider));
+        gen.addProvider(true, new ModRecipeProvider.Runner(output, lookupProvider));
+        gen.addProvider(true, new ModItemTagProvider(
+                output, lookupProvider));
     }
 }

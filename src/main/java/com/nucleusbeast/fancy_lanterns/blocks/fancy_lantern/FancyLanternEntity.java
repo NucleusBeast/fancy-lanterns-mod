@@ -177,6 +177,7 @@ public class FancyLanternEntity extends BlockEntity {
                     player,
                     ParticleTypes.COMPOSTER,
                     false,
+                    false,
                     particleX,
                     particleY,
                     particleZ,

@@ -17,12 +17,11 @@ public class ModBlockEntities {
             DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, FancyLanterns.MODID);
 
     public static final Supplier<BlockEntityType<FancyLanternEntity>> MURKY_LANTERN_ENTITY =
-            BLOCK_ENTITIES.register("murky_lantern_entity", () -> BlockEntityType.Builder.of(
+            BLOCK_ENTITIES.register("murky_lantern_entity", () -> new BlockEntityType<>(
                     FancyLanternEntity::new,
                     ModBlocks.EFFECT_LANTERNS.stream()
                             .map(DeferredBlock::get)
-                            .toArray(Block[]::new)
-                    ).build(null));
+                            .toArray(Block[]::new)));
 
     public static void register(IEventBus bus) {
         BLOCK_ENTITIES.register(bus);
