@@ -42,19 +42,11 @@ public class FancyLanterns {
         ModBlocks.register(modEventBus);
         ModBlockEntities.register(modEventBus);
 
-//        ModLootModifiers.register(modEventBus);
-
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
-
-//        if (Config.logDirtBlock) LOGGER.info("DIRT BLOCK >> {}", BuiltInRegistries.BLOCK.getKey(Blocks.DIRT));
-//
-//        LOGGER.info(Config.magicNumberIntroduction + Config.magicNumber);
-//
-//        Config.items.forEach((item) -> LOGGER.info("ITEM >> {}", item.toString()));
         LOGGER.info("[FANCY LANTERNS] Config aoe set to: {} - Regular Range; {} - I Range; {} - II Range", Config.regularLanternRange, Config.upgradedLanternRangeI, Config.upgradedLanternRangeII);
     }
 
@@ -66,7 +58,7 @@ public class FancyLanterns {
     }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
-    @EventBusSubscriber(modid = MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+    @EventBusSubscriber(modid = MODID, value = Dist.CLIENT)
     public static class ClientModEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {

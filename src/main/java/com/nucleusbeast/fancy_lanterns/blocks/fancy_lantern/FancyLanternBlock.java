@@ -1,5 +1,6 @@
 package com.nucleusbeast.fancy_lanterns.blocks.fancy_lantern;
 
+import com.nucleusbeast.fancy_lanterns.FancyLanterns;
 import com.nucleusbeast.fancy_lanterns.ModBlockEntities;
 import com.nucleusbeast.fancy_lanterns.blocks.LanternStateProperties;
 import com.nucleusbeast.fancy_lanterns.blocks.LanternUpgradeMaterials;
@@ -72,6 +73,7 @@ public class FancyLanternBlock extends LanternBlock implements EntityBlock {
 
     @Override
     protected @NotNull InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+        FancyLanterns.LOGGER.info("using");
         if (!level.isClientSide && player instanceof ServerPlayer serverPlayer) {
             if (player.isShiftKeyDown()) {
                 BlockEntity blockEntity = level.getBlockEntity(pos);
@@ -100,7 +102,8 @@ public class FancyLanternBlock extends LanternBlock implements EntityBlock {
 
         int currentLevel = state.getValue(LanternStateProperties.LEVEL);
         if (currentLevel >= LanternStateProperties.MAX_LEVEL) {
-            return InteractionResult.PASS;
+//            return emptyHandFallback(itemStack);
+            return InteractionResult.TRY_WITH_EMPTY_HAND;
         }
 
         if (itemStack.is(LanternUpgradeMaterials.forLevel(currentLevel))) {
@@ -120,7 +123,14 @@ public class FancyLanternBlock extends LanternBlock implements EntityBlock {
             return InteractionResult.SUCCESS;
         }
 
-        return InteractionResult.PASS;
+//        return emptyHandFallback(itemStack);
+        return InteractionResult.TRY_WITH_EMPTY_HAND;
+    }
+
+    private static InteractionResult emptyHandFallback(ItemStack itemStack) {
+        return itemStack.isEmpty()
+                ? InteractionResult.TRY_WITH_EMPTY_HAND
+                : InteractionResult.PASS;
     }
 
     @Override

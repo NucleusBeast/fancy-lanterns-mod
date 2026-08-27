@@ -11,12 +11,12 @@ import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.ModelProvider;
 import net.minecraft.client.data.models.blockstates.MultiVariantGenerator;
 import net.minecraft.client.data.models.blockstates.PropertyDispatch;
-import net.minecraft.client.data.models.blockstates.Variant;
-import net.minecraft.client.data.models.blockstates.VariantProperties;
 import net.minecraft.client.data.models.model.ModelTemplate;
 import net.minecraft.client.data.models.model.ModelTemplates;
 import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.client.data.models.model.TextureSlot;
+import net.minecraft.client.renderer.block.model.Variant;
+import net.minecraft.client.renderer.block.model.VariantMutator;
 import net.minecraft.core.Holder;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
@@ -48,8 +48,8 @@ public class ModModelProvider extends ModelProvider {
         boolean supportsMutedState = block instanceof FancyLanternBlock || block instanceof FizzeledLanternBlock;
         ResourceLocation flameTexture = modLoc("block/lantern/flames/" + familyName);
 
-        PropertyDispatch.C3<Boolean, Integer, Boolean> dispatch =
-                PropertyDispatch.properties(LanternBlock.HANGING, LanternStateProperties.LEVEL, LanternStateProperties.MUTED);
+        PropertyDispatch.C3<VariantMutator, Boolean, Integer, Boolean> dispatch =
+                PropertyDispatch.modify(LanternBlock.HANGING, LanternStateProperties.LEVEL, LanternStateProperties.MUTED);
 
         for (int level = LanternStateProperties.MIN_LEVEL; level <= LanternStateProperties.MAX_LEVEL; level++) {
             for (boolean muted : supportsMutedState ? new boolean[]{false, true} : new boolean[]{false}) {
@@ -67,11 +67,14 @@ public class ModModelProvider extends ModelProvider {
             }
         }
 
-        blockModels.blockStateOutput.accept(MultiVariantGenerator.multiVariant(block).with(dispatch));
+        blockModels.blockStateOutput.accept(
+                MultiVariantGenerator.dispatch(block, BlockModelGenerators.variant(new Variant(
+                                modLoc("block/" + blockName + "_level_1"))))
+                        .with(dispatch));
     }
 
-    private static Variant modelVariant(ResourceLocation model) {
-        return Variant.variant().with(VariantProperties.MODEL, model);
+    private static VariantMutator modelVariant(ResourceLocation model) {
+        return VariantMutator.MODEL.withValue(model);
     }
 
     private ResourceLocation layeredLanternModel(
@@ -88,6 +91,7 @@ public class ModModelProvider extends ModelProvider {
         ModelTemplate compositeTemplate = ExtendedModelTemplateBuilder.builder()
                 .parent(ResourceLocation.withDefaultNamespace("block/block"))
                 .requiredTextureSlot(TextureSlot.PARTICLE)
+                .renderType("minecraft:cutout")
                 .customLoader(CompositeModelBuilder::new, loader -> loader
                         .inlineChild("base_flame", layerTemplate,
                                 TextureMapping.singleSlot(TextureSlot.LANTERN, flameTexture))

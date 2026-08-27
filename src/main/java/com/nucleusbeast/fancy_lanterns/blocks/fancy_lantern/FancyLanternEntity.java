@@ -67,7 +67,7 @@ public class FancyLanternEntity extends BlockEntity {
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
         if (tag.contains(USES_REMAINING_TAG)) {
-            usesRemaining = tag.getInt(USES_REMAINING_TAG);
+            usesRemaining = tag.getInt(USES_REMAINING_TAG).get();
         }
     }
 

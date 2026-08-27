@@ -44,7 +44,7 @@ public final class ModBlocks {
                             .strength(0.3f)
                             .lightLevel(state -> 14)
                             .sound(SoundType.LANTERN),
-                    MobEffects.DIG_SPEED,
+                    MobEffects.HASTE,
                     coloredEffectParticle(1.0F, 0.85F, 0.1F))
     );
     public static final DeferredBlock<Block> HEALTHY_LANTERN = registerBlock(
@@ -110,7 +110,7 @@ public final class ModBlocks {
                             .strength(0.3f)
                             .lightLevel(state -> 12)
                             .sound(SoundType.LANTERN),
-                    MobEffects.JUMP,
+                    MobEffects.JUMP_BOOST,
                     ParticleTypes.GLOW_SQUID_INK)
     );
     public static final DeferredBlock<Block> SPEEDY_LANTERN = registerBlock(
@@ -121,7 +121,7 @@ public final class ModBlocks {
                             .strength(0.3f)
                             .lightLevel(state -> 14)
                             .sound(SoundType.LANTERN),
-                    MobEffects.MOVEMENT_SPEED,
+                    MobEffects.SPEED,
                     ParticleTypes.WAX_OFF)
     );
     public static final DeferredBlock<Block> FIERY_LANTERN = registerBlock(
@@ -143,7 +143,7 @@ public final class ModBlocks {
                             .strength(0.3f)
                             .lightLevel(state -> 6)
                             .sound(SoundType.LANTERN),
-                    MobEffects.DAMAGE_BOOST,
+                    MobEffects.STRENGTH,
                     ParticleTypes.CRIT
             )
     );
