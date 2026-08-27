@@ -100,7 +100,7 @@ public class FancyLanternBlock extends LanternBlock implements EntityBlock {
 
         int currentLevel = state.getValue(LanternStateProperties.LEVEL);
         if (currentLevel >= LanternStateProperties.MAX_LEVEL) {
-            return InteractionResult.PASS;
+            return InteractionResult.TRY_WITH_EMPTY_HAND;
         }
 
         if (itemStack.is(LanternUpgradeMaterials.forLevel(currentLevel))) {
@@ -120,7 +120,7 @@ public class FancyLanternBlock extends LanternBlock implements EntityBlock {
             return InteractionResult.SUCCESS;
         }
 
-        return InteractionResult.PASS;
+        return InteractionResult.TRY_WITH_EMPTY_HAND;
     }
 
     @Override
