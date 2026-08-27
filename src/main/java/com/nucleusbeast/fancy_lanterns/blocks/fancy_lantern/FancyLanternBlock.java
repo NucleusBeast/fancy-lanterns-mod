@@ -102,7 +102,6 @@ public class FancyLanternBlock extends LanternBlock implements EntityBlock {
 
         int currentLevel = state.getValue(LanternStateProperties.LEVEL);
         if (currentLevel >= LanternStateProperties.MAX_LEVEL) {
-//            return emptyHandFallback(itemStack);
             return InteractionResult.TRY_WITH_EMPTY_HAND;
         }
 
@@ -123,14 +122,7 @@ public class FancyLanternBlock extends LanternBlock implements EntityBlock {
             return InteractionResult.SUCCESS;
         }
 
-//        return emptyHandFallback(itemStack);
         return InteractionResult.TRY_WITH_EMPTY_HAND;
-    }
-
-    private static InteractionResult emptyHandFallback(ItemStack itemStack) {
-        return itemStack.isEmpty()
-                ? InteractionResult.TRY_WITH_EMPTY_HAND
-                : InteractionResult.PASS;
     }
 
     @Override
