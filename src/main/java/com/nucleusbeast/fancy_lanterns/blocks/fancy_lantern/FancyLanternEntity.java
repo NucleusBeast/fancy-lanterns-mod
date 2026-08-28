@@ -6,10 +6,8 @@ import com.nucleusbeast.fancy_lanterns.blocks.LanternStateProperties;
 import com.nucleusbeast.fancy_lanterns.blocks.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -20,6 +18,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 
 import javax.annotation.Nullable;
@@ -58,17 +58,16 @@ public class FancyLanternEntity extends BlockEntity {
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
-        tag.putInt(USES_REMAINING_TAG, usesRemaining);
+    protected void saveAdditional(ValueOutput output) {
+        super.saveAdditional(output);
+        output.putInt(USES_REMAINING_TAG, usesRemaining);
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
-        if (tag.contains(USES_REMAINING_TAG)) {
-            usesRemaining = tag.getInt(USES_REMAINING_TAG).get();
-        }
+    protected void loadAdditional(ValueInput input) {
+        super.loadAdditional(input);
+        usesRemaining = input.getInt(USES_REMAINING_TAG).get();
+
     }
 
     public void startRangePreview(ServerPlayer player) {
@@ -147,7 +146,7 @@ public class FancyLanternEntity extends BlockEntity {
             Map.Entry<UUID, Long> preview = previews.next();
             ServerPlayer player = level.getServer().getPlayerList().getPlayer(preview.getKey());
 
-            if (preview.getValue() <= gameTime || player == null || player.serverLevel() != level) {
+            if (preview.getValue() <= gameTime || player == null || player.level() != level) {
                 previews.remove();
                 continue;
             }
