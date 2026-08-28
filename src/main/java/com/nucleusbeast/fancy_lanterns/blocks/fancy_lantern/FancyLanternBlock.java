@@ -1,6 +1,5 @@
 package com.nucleusbeast.fancy_lanterns.blocks.fancy_lantern;
 
-import com.nucleusbeast.fancy_lanterns.FancyLanterns;
 import com.nucleusbeast.fancy_lanterns.ModBlockEntities;
 import com.nucleusbeast.fancy_lanterns.blocks.LanternStateProperties;
 import com.nucleusbeast.fancy_lanterns.blocks.LanternUpgradeMaterials;
@@ -73,8 +72,7 @@ public class FancyLanternBlock extends LanternBlock implements EntityBlock {
 
     @Override
     protected @NotNull InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
-        FancyLanterns.LOGGER.info("using");
-        if (!level.isClientSide && player instanceof ServerPlayer serverPlayer) {
+        if (!level.isClientSide() && player instanceof ServerPlayer serverPlayer) {
             if (player.isShiftKeyDown()) {
                 BlockEntity blockEntity = level.getBlockEntity(pos);
                 if (blockEntity instanceof FancyLanternEntity fancyLantern) {
@@ -91,7 +89,7 @@ public class FancyLanternBlock extends LanternBlock implements EntityBlock {
     @Override
     protected InteractionResult useItemOn(ItemStack itemStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand interactionHand, BlockHitResult hitResult) {
         if (!state.getValue(LanternStateProperties.MUTED) && itemStack.is(ItemTags.WOOL)) {
-            if (!level.isClientSide) {
+            if (!level.isClientSide()) {
                 level.setBlockAndUpdate(pos, state.setValue(LanternStateProperties.MUTED, true));
                 itemStack.consume(1, player);
                 level.playSound(null, pos, SoundEvents.WOOL_PLACE, SoundSource.BLOCKS);
@@ -106,7 +104,7 @@ public class FancyLanternBlock extends LanternBlock implements EntityBlock {
         }
 
         if (itemStack.is(LanternUpgradeMaterials.forLevel(currentLevel))) {
-            if (!level.isClientSide) {
+            if (!level.isClientSide()) {
                 int upgradedLevel = currentLevel + 1;
                 level.setBlockAndUpdate(pos, state.setValue(LanternStateProperties.LEVEL, upgradedLevel));
 

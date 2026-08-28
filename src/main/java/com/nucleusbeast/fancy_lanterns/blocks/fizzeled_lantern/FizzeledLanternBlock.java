@@ -62,7 +62,7 @@ public class FizzeledLanternBlock extends LanternBlock {
 
     @Override
     protected @NotNull InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
-        if (!level.isClientSide && player instanceof ServerPlayer serverPlayer) {
+        if (!level.isClientSide() && player instanceof ServerPlayer serverPlayer) {
             if (player.isShiftKeyDown()) {
                 player.displayClientMessage(Component.translatable(
                         "block.fancy_lanterns.murky_lantern.fizzled"), true);
@@ -75,7 +75,7 @@ public class FizzeledLanternBlock extends LanternBlock {
     @Override
     protected InteractionResult useItemOn(ItemStack itemStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand interactionHand, BlockHitResult hitResult) {
         if (!state.getValue(LanternStateProperties.MUTED) && itemStack.is(ItemTags.WOOL)) {
-            if (!level.isClientSide) {
+            if (!level.isClientSide()) {
                 level.setBlockAndUpdate(pos, state.setValue(LanternStateProperties.MUTED, true));
                 itemStack.consume(1, player);
                 level.playSound(null, pos, SoundEvents.WOOL_PLACE, SoundSource.BLOCKS);
@@ -90,7 +90,7 @@ public class FizzeledLanternBlock extends LanternBlock {
                 .findFirst()
                 .orElse(null);
         if (relitBlock != null) {
-            if (!level.isClientSide) {
+            if (!level.isClientSide()) {
                 BlockState relitState = relitBlock.get()
                         .defaultBlockState()
                         .setValue(
@@ -122,7 +122,7 @@ public class FizzeledLanternBlock extends LanternBlock {
             return InteractionResult.TRY_WITH_EMPTY_HAND;
         }
         if (itemStack.is(LanternUpgradeMaterials.forLevel(currentLevel))) {
-            if (!level.isClientSide) {
+            if (!level.isClientSide()) {
                 level.setBlockAndUpdate(
                         pos,
                         state.setValue(LanternStateProperties.LEVEL, currentLevel + 1)

@@ -89,7 +89,7 @@ public class FancyLanternEntity extends BlockEntity {
         if (level.getGameTime() % 20L == 0L) {
             if (lanternLevel > 0) {
                 if (blockEntity.usesRemaining < 1 && Config.doesFizzleOut) {
-                    if (!level.isClientSide) {
+                    if (!level.isClientSide()) {
                         BlockState fizzledState = getFizzledLanternState(state, lanternLevel);
                         level.setBlockAndUpdate(pos, fizzledState);
                     }
@@ -122,7 +122,7 @@ public class FancyLanternEntity extends BlockEntity {
                 playSound(level, pos, SoundEvents.ITEM_PICKUP);
 
 
-                if (!level.isClientSide) {
+                if (!level.isClientSide()) {
                     ((ServerLevel) level).sendParticles(blockEntity.particleTypes,
                             pos.getX() + 0.5,
                             pos.getY() + 0.5,
@@ -228,7 +228,7 @@ public class FancyLanternEntity extends BlockEntity {
             int lanternLevel,
             @Nullable Holder<MobEffect> primaryEffect,
             int duration) {
-        if (!level.isClientSide && primaryEffect != null) {
+        if (!level.isClientSide() && primaryEffect != null) {
 
             int amplifier = (Config.effectAmplifier ? lanternLevel - 1 : 1);
             AABB aabb = new AABB(pos)
