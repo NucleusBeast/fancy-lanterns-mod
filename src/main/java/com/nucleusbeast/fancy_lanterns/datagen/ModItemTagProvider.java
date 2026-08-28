@@ -3,11 +3,12 @@ package com.nucleusbeast.fancy_lanterns.datagen;
 import com.nucleusbeast.fancy_lanterns.FancyLanterns;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.neoforged.neoforge.common.data.ItemTagsProvider;
+
 import java.util.concurrent.CompletableFuture;
 
 public class ModItemTagProvider extends ItemTagsProvider {
@@ -18,7 +19,7 @@ public class ModItemTagProvider extends ItemTagsProvider {
     public ModItemTagProvider(
             PackOutput output,
             CompletableFuture<HolderLookup.Provider> lookupProvider) {
-        super(output, lookupProvider, CompletableFuture.completedFuture(null),
+        super(output, lookupProvider,
                 FancyLanterns.MODID);
     }
 
@@ -32,8 +33,9 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(Items.IRON_BLOCK);
         tag(UPGRADE_LEVEL_3)
                 .add(Items.NETHER_STAR)
-                .add(Items.NETHERITE_SCRAP)
-                .addOptional(ResourceLocation.parse("useless_things:nucleus_core"));
+                .add(Items.NETHERITE_SCRAP);
+        getOrCreateRawBuilder(UPGRADE_LEVEL_3)
+                .addOptionalElement(ResourceLocation.parse("useless_things:nucleus_core"));
 
         relight("healthy_lantern", Items.GOLDEN_APPLE);
         relight("strengthy_lantern", Items.IRON_SWORD);
