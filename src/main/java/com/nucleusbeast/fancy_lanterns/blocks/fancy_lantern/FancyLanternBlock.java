@@ -1,6 +1,5 @@
 package com.nucleusbeast.fancy_lanterns.blocks.fancy_lantern;
 
-import com.nucleusbeast.fancy_lanterns.FancyLanterns;
 import com.nucleusbeast.fancy_lanterns.ModBlockEntities;
 import com.nucleusbeast.fancy_lanterns.blocks.LanternStateProperties;
 import com.nucleusbeast.fancy_lanterns.blocks.LanternUpgradeMaterials;
@@ -73,7 +72,6 @@ public class FancyLanternBlock extends LanternBlock implements EntityBlock {
 
     @Override
     protected @NotNull InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
-        FancyLanterns.LOGGER.info("using");
         if (!level.isClientSide && player instanceof ServerPlayer serverPlayer) {
             if (player.isShiftKeyDown()) {
                 BlockEntity blockEntity = level.getBlockEntity(pos);
