@@ -8,8 +8,8 @@ import net.minecraft.core.particles.ColorParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -29,7 +29,7 @@ public final class ModBlocks {
     public static final DeferredBlock<Block> MURKY_LANTERN = registerBlock(
             "murky_lantern",
             () -> new FizzeledLanternBlock(BlockBehaviour.Properties.of()
-                    .setId(ResourceKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(FancyLanterns.MODID, "murky_lantern")))
+                    .setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FancyLanterns.MODID, "murky_lantern")))
                     .strength(0.3f)
                     .lightLevel(state -> 1)
                     .sound(SoundType.LANTERN)
@@ -40,7 +40,7 @@ public final class ModBlocks {
             "hasty_lantern",
             () -> new FancyLanternBlock(
                     BlockBehaviour.Properties.of()
-                            .setId(ResourceKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(FancyLanterns.MODID, "hasty_lantern")))
+                            .setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FancyLanterns.MODID, "hasty_lantern")))
                             .strength(0.3f)
                             .lightLevel(state -> 14)
                             .sound(SoundType.LANTERN),
@@ -51,7 +51,7 @@ public final class ModBlocks {
             "healthy_lantern",
             () -> new FancyLanternBlock(
                     BlockBehaviour.Properties.of()
-                            .setId(ResourceKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(FancyLanterns.MODID, "healthy_lantern")))
+                            .setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FancyLanterns.MODID, "healthy_lantern")))
                             .strength(0.3f)
                             .lightLevel(state -> 8)
                             .sound(SoundType.LANTERN),
@@ -62,7 +62,7 @@ public final class ModBlocks {
             "absorby_lantern",
             () -> new FancyLanternBlock(
                     BlockBehaviour.Properties.of()
-                            .setId(ResourceKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(FancyLanterns.MODID, "absorby_lantern")))
+                            .setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FancyLanterns.MODID, "absorby_lantern")))
                             .strength(0.3f)
                             .lightLevel(state -> 10)
                             .sound(SoundType.LANTERN),
@@ -73,7 +73,7 @@ public final class ModBlocks {
             "saturaty_lantern",
             () -> new FancyLanternBlock(
                     BlockBehaviour.Properties.of()
-                            .setId(ResourceKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(FancyLanterns.MODID, "saturaty_lantern")))
+                            .setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FancyLanterns.MODID, "saturaty_lantern")))
                             .strength(0.3f)
                             .lightLevel(state -> 15)
                             .sound(SoundType.LANTERN),
@@ -84,7 +84,7 @@ public final class ModBlocks {
             "nighty_lantern",
             () -> new FancyLanternBlock(
                     BlockBehaviour.Properties.of()
-                            .setId(ResourceKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(FancyLanterns.MODID, "nighty_lantern")))
+                            .setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FancyLanterns.MODID, "nighty_lantern")))
                             .strength(0.3f)
                             .lightLevel(state -> 9)
                             .sound(SoundType.LANTERN),
@@ -95,7 +95,7 @@ public final class ModBlocks {
             "lucky_lantern",
             () -> new FancyLanternBlock(
                     BlockBehaviour.Properties.of()
-                            .setId(ResourceKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(FancyLanterns.MODID, "lucky_lantern")))
+                            .setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FancyLanterns.MODID, "lucky_lantern")))
                             .strength(0.3f)
                             .lightLevel(state -> 12)
                             .sound(SoundType.LANTERN),
@@ -106,7 +106,7 @@ public final class ModBlocks {
             "jumpy_lantern",
             () -> new FancyLanternBlock(
                     BlockBehaviour.Properties.of()
-                            .setId(ResourceKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(FancyLanterns.MODID, "jumpy_lantern")))
+                            .setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FancyLanterns.MODID, "jumpy_lantern")))
                             .strength(0.3f)
                             .lightLevel(state -> 12)
                             .sound(SoundType.LANTERN),
@@ -117,7 +117,7 @@ public final class ModBlocks {
             "speedy_lantern",
             () -> new FancyLanternBlock(
                     BlockBehaviour.Properties.of()
-                            .setId(ResourceKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(FancyLanterns.MODID, "speedy_lantern")))
+                            .setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FancyLanterns.MODID, "speedy_lantern")))
                             .strength(0.3f)
                             .lightLevel(state -> 14)
                             .sound(SoundType.LANTERN),
@@ -128,7 +128,7 @@ public final class ModBlocks {
             "fiery_lantern",
             () -> new FancyLanternBlock(
                     BlockBehaviour.Properties.of()
-                            .setId(ResourceKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(FancyLanterns.MODID, "fiery_lantern")))
+                            .setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FancyLanterns.MODID, "fiery_lantern")))
                             .strength(0.3f)
                             .lightLevel(state -> 13)
                             .sound(SoundType.LANTERN),
@@ -139,7 +139,7 @@ public final class ModBlocks {
             "strengthy_lantern",
             () -> new FancyLanternBlock(
                     BlockBehaviour.Properties.of()
-                            .setId(ResourceKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(FancyLanterns.MODID, "strengthy_lantern")))
+                            .setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FancyLanterns.MODID, "strengthy_lantern")))
                             .strength(0.3f)
                             .lightLevel(state -> 6)
                             .sound(SoundType.LANTERN),
@@ -152,7 +152,7 @@ public final class ModBlocks {
             "breathy_lantern",
             () -> new FancyLanternBlock(
                     BlockBehaviour.Properties.of()
-                            .setId(ResourceKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(FancyLanterns.MODID, "breathy_lantern")))
+                            .setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FancyLanterns.MODID, "breathy_lantern")))
                             .strength(0.3f)
                             .lightLevel(state -> 7)
                             .sound(SoundType.LANTERN),
@@ -196,7 +196,7 @@ public final class ModBlocks {
 
     private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {
         DeferredBlock<T> registeredBlock = BLOCKS.register(name, block);
-        ModItems.ITEMS.register(name, () -> new BlockItem(registeredBlock.get(), new Item.Properties().setId(ResourceKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(FancyLanterns.MODID, name)))));
+        ModItems.ITEMS.register(name, () -> new BlockItem(registeredBlock.get(), new Item.Properties().setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(FancyLanterns.MODID, name)))));
         return registeredBlock;
     }
 

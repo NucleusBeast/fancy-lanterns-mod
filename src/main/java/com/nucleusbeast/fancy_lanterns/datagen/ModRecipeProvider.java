@@ -14,7 +14,7 @@ import net.minecraft.world.item.Items;
 
 import java.util.concurrent.CompletableFuture;
 
-import static net.minecraft.advancements.critereon.InventoryChangeTrigger.TriggerInstance.hasItems;
+import static net.minecraft.advancements.criterion.InventoryChangeTrigger.TriggerInstance.hasItems;
 
 public class ModRecipeProvider extends RecipeProvider {
 

@@ -3,7 +3,7 @@ package com.nucleusbeast.fancy_lanterns.datagen;
 import com.nucleusbeast.fancy_lanterns.FancyLanterns;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -35,7 +35,7 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(Items.NETHER_STAR)
                 .add(Items.NETHERITE_SCRAP);
         getOrCreateRawBuilder(UPGRADE_LEVEL_3)
-                .addOptionalElement(ResourceLocation.parse("useless_things:nucleus_core"));
+                .addOptionalElement(Identifier.parse("useless_things:nucleus_core"));
 
         relight("healthy_lantern", Items.GOLDEN_APPLE);
         relight("strengthy_lantern", Items.IRON_SWORD);
@@ -56,6 +56,6 @@ public class ModItemTagProvider extends ItemTagsProvider {
 
     private static TagKey<Item> tag(String path) {
         return TagKey.create(net.minecraft.core.registries.Registries.ITEM,
-                ResourceLocation.fromNamespaceAndPath(FancyLanterns.MODID, path));
+                Identifier.fromNamespaceAndPath(FancyLanterns.MODID, path));
     }
 }

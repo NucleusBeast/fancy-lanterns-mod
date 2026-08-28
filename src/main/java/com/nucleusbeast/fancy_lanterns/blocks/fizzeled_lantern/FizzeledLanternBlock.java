@@ -6,7 +6,7 @@ import com.nucleusbeast.fancy_lanterns.blocks.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -55,7 +55,7 @@ public class FizzeledLanternBlock extends LanternBlock {
     private static Map.Entry<TagKey<Item>, DeferredBlock<Block>> relightTag(
             String lantern, DeferredBlock<Block> block) {
         return Map.entry(TagKey.create(Registries.ITEM,
-                ResourceLocation.fromNamespaceAndPath(
+                Identifier.fromNamespaceAndPath(
                         com.nucleusbeast.fancy_lanterns.FancyLanterns.MODID,
                         "relights/" + lantern)), block);
     }

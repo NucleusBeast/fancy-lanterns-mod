@@ -19,7 +19,7 @@ public final class LanternUpgradeMaterials {
 
     static TagKey<Item> tag(String name) {
         return TagKey.create(Registries.ITEM,
-                net.minecraft.resources.ResourceLocation.fromNamespaceAndPath(
+                net.minecraft.resources.Identifier.fromNamespaceAndPath(
                         "fancy_lanterns", name));
     }
 }

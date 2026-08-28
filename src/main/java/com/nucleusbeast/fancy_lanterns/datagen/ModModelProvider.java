@@ -19,7 +19,7 @@ import net.minecraft.client.renderer.block.model.Variant;
 import net.minecraft.client.renderer.block.model.VariantMutator;
 import net.minecraft.core.Holder;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LanternBlock;
@@ -46,19 +46,19 @@ public class ModModelProvider extends ModelProvider {
         String blockName = deferredBlock.getId().getPath();
         String familyName = getFamilyName(blockName);
         boolean supportsMutedState = block instanceof FancyLanternBlock || block instanceof FizzeledLanternBlock;
-        ResourceLocation flameTexture = modLoc("block/lantern/flames/" + familyName);
+        Identifier flameTexture = modLoc("block/lantern/flames/" + familyName);
 
         PropertyDispatch.C3<VariantMutator, Boolean, Integer, Boolean> dispatch =
                 PropertyDispatch.modify(LanternBlock.HANGING, LanternStateProperties.LEVEL, LanternStateProperties.MUTED);
 
         for (int level = LanternStateProperties.MIN_LEVEL; level <= LanternStateProperties.MAX_LEVEL; level++) {
             for (boolean muted : supportsMutedState ? new boolean[]{false, true} : new boolean[]{false}) {
-                ResourceLocation borderTexture = getBorderTexture(familyName, level, muted);
+                Identifier borderTexture = getBorderTexture(familyName, level, muted);
                 String suffix = "_level_" + level + (muted ? "_muted" : "");
-                ResourceLocation standingModel = layeredLanternModel(
+                Identifier standingModel = layeredLanternModel(
                         blockModels, modLoc("block/" + blockName + suffix),
                         modLoc("block/template_fancy_lantern"), flameTexture, borderTexture);
-                ResourceLocation hangingModel = layeredLanternModel(
+                Identifier hangingModel = layeredLanternModel(
                         blockModels, modLoc("block/" + blockName + suffix + "_hanging"),
                         modLoc("block/template_fancy_hanging_lantern"), flameTexture, borderTexture);
 
@@ -73,23 +73,23 @@ public class ModModelProvider extends ModelProvider {
                         .with(dispatch));
     }
 
-    private static VariantMutator modelVariant(ResourceLocation model) {
+    private static VariantMutator modelVariant(Identifier model) {
         return VariantMutator.MODEL.withValue(model);
     }
 
-    private ResourceLocation layeredLanternModel(
+    private Identifier layeredLanternModel(
             BlockModelGenerators blockModels,
-            ResourceLocation modelLocation,
-            ResourceLocation template,
-            ResourceLocation flameTexture,
-            ResourceLocation borderTexture) {
+            Identifier modelLocation,
+            Identifier template,
+            Identifier flameTexture,
+            Identifier borderTexture) {
         ModelTemplate layerTemplate = ExtendedModelTemplateBuilder.builder()
                 .parent(template)
                 .requiredTextureSlot(TextureSlot.LANTERN)
                 .renderType("minecraft:cutout")
                 .build();
         ModelTemplate compositeTemplate = ExtendedModelTemplateBuilder.builder()
-                .parent(ResourceLocation.withDefaultNamespace("block/block"))
+                .parent(Identifier.withDefaultNamespace("block/block"))
                 .requiredTextureSlot(TextureSlot.PARTICLE)
                 .renderType("minecraft:cutout")
                 .customLoader(CompositeModelBuilder::new, loader -> loader
@@ -106,7 +106,7 @@ public class ModModelProvider extends ModelProvider {
                 blockModels.modelOutput);
     }
 
-    private ResourceLocation getBorderTexture(String familyName, int level, boolean muted) {
+    private Identifier getBorderTexture(String familyName, int level, boolean muted) {
         if (muted) {
             if (level == LanternStateProperties.MAX_LEVEL) {
                 return modLoc("block/lantern/muted_borders/level_4/" + familyName);
@@ -127,8 +127,8 @@ public class ModModelProvider extends ModelProvider {
         return blockName.substring(0, lanternMarkerIndex);
     }
 
-    private static ResourceLocation modLoc(String path) {
-        return ResourceLocation.fromNamespaceAndPath(FancyLanterns.MODID, path);
+    private static Identifier modLoc(String path) {
+        return Identifier.fromNamespaceAndPath(FancyLanterns.MODID, path);
     }
 
     @Override
