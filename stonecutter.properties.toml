@@ -1,0 +1,110 @@
+# See https://stonecutter.kikugie.dev/wiki/config/properties#centralized-properties
+mod.id = "fancy_lanterns"
+mod.name = "Fancy Lanterns"
+mod.group = "com.nucleusbeast"
+mod.version = "1.0.0"
+mod.license = "MIT"
+mod.authors = "NucleusBeast"
+mod.description = "Lanterns that are finally usefull. Think of them as mini beacons!"
+
+# Per version:
+#   mod.mc_compat  - Minecraft version range in neoforge.mods.toml
+#   deps.neo_loader - NeoForge version
+#   deps.jei_mc    - Minecraft version in the JEI artifact name. Empty = no JEI for this version (JEI plugin is not compiled).
+#   deps.jei       - JEI version (https://maven.blamejared.com/mezz/jei/)
+
+["1.21.0"]
+mod.mc_compat = "[1.21]"
+deps.neo_loader = "21.0.167"
+deps.jei_mc = "1.21"
+deps.jei = "19.8.2.99"
+
+["1.21.1"]
+mod.mc_compat = "[1.21.1]"
+deps.neo_loader = "21.1.251"
+deps.jei_mc = "1.21.1"
+deps.jei = "19.76.1.481"
+
+["1.21.3"]
+mod.mc_compat = "[1.21.3]"
+deps.neo_loader = "21.3.97"
+deps.jei_mc = ""
+deps.jei = ""
+
+["1.21.4"]
+mod.mc_compat = "[1.21.4]"
+deps.neo_loader = "21.4.157"
+deps.jei_mc = "1.21.4"
+deps.jei = "20.0.0.4"
+
+["1.21.5"]
+mod.mc_compat = "[1.21.5]"
+deps.neo_loader = "21.5.98"
+deps.jei_mc = "1.21.5"
+deps.jei = "21.4.0.27"
+
+["1.21.6"]
+mod.mc_compat = "[1.21.6]"
+deps.neo_loader = "21.6.20-beta"
+deps.jei_mc = ""
+deps.jei = ""
+
+["1.21.7"]
+mod.mc_compat = "[1.21.7]"
+deps.neo_loader = "21.7.25-beta"
+deps.jei_mc = "1.21.7"
+deps.jei = "23.1.0.8"
+
+["1.21.8"]
+mod.mc_compat = "[1.21.8]"
+deps.neo_loader = "21.8.54"
+deps.jei_mc = "1.21.8"
+deps.jei = "24.2.0.6"
+
+["1.21.9"]
+mod.mc_compat = "[1.21.9]"
+deps.neo_loader = "21.9.16-beta"
+deps.jei_mc = "1.21.9"
+deps.jei = "25.0.1.4"
+
+["1.21.10"]
+mod.mc_compat = "[1.21.10]"
+deps.neo_loader = "21.10.64"
+deps.jei_mc = "1.21.10"
+deps.jei = "26.3.0.31"
+
+["1.21.11"]
+mod.mc_compat = "[1.21.11]"
+deps.neo_loader = "21.11.45"
+deps.jei_mc = "1.21.11"
+deps.jei = "27.55.0.122"
+
+["26.1"]
+mod.mc_compat = "[26.1]"
+deps.neo_loader = "26.1.0.19-beta"
+deps.jei_mc = "26.1"
+deps.jei = "29.2.0.21"
+
+["26.1.1"]
+mod.mc_compat = "[26.1.1]"
+deps.neo_loader = "26.1.1.15-beta"
+deps.jei_mc = "26.1.1"
+deps.jei = "29.4.0.23"
+
+["26.1.2"]
+mod.mc_compat = "[26.1.2]"
+deps.neo_loader = "26.1.2.130"
+deps.jei_mc = "26.1.2"
+deps.jei = "29.54.0.123"
+
+["26.2"]
+mod.mc_compat = "[26.2]"
+deps.neo_loader = "26.2.0.95"
+deps.jei_mc = "26.2"
+deps.jei = "30.48.0.244"
+
+["26.3"]
+mod.mc_compat = "[26.3]"
+deps.neo_loader = "26.3.0.117"
+deps.jei_mc = "26.3"
+deps.jei = "31.23.0.130"

@@ -2,45 +2,33 @@ package com.nucleusbeast.fancy_lanterns.datagen;
 
 import com.nucleusbeast.fancy_lanterns.blocks.ModBlocks;
 import net.minecraft.core.Holder;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.entries.LootItem;
-import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
-import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
-import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 
 import java.util.Set;
 
+//? if <26.3 {
+import net.minecraft.core.HolderLookup;
+//?} else {
+/*import net.minecraft.data.loot.LootTableSubProvider;
+*///?}
+
 public class ModBlockLootTableProvider extends BlockLootSubProvider {
 
+    //? if <26.3 {
     protected ModBlockLootTableProvider(HolderLookup.Provider registries) {
         super(Set.of(), FeatureFlags.REGISTRY.allFlags(), registries);
     }
+    //?} else {
+    /*protected ModBlockLootTableProvider(LootTableSubProvider.Context output) {
+        super(Set.of(), FeatureFlags.REGISTRY.allFlags(), output);
+    }
+    *///?}
 
     @Override
     protected void generate() {
         ModBlocks.ALL_LANTERNS.forEach(lantern -> dropSelf(lantern.get()));
-    }
-
-    // modified from createCopperOreDrops in BlockLootSubProvider
-    protected LootTable.Builder createMultipleOreDrops(Block block, Item item, float minCount, float maxCount) {
-        HolderLookup.RegistryLookup<Enchantment> registrylookup = this.registries.lookupOrThrow(Registries.ENCHANTMENT);
-        return this.createSilkTouchDispatchTable(
-                block,
-                this.applyExplosionDecay(
-                        block,
-                        LootItem.lootTableItem(item)
-                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(minCount, maxCount)))
-                                .apply(ApplyBonusCount.addOreBonusCount(registrylookup.getOrThrow(Enchantments.FORTUNE)))
-                )
-        );
     }
 
     @Override

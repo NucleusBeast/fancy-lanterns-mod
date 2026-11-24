@@ -1,3 +1,4 @@
+// Used from 1.21.4 (build.gradle.kts excludes it before 1.21.4). Before 1.21.4, ModBlockStateProvider and ModItemModelProvider make the models.
 package com.nucleusbeast.fancy_lanterns.datagen;
 
 import com.nucleusbeast.fancy_lanterns.FancyLanterns;
@@ -15,8 +16,6 @@ import net.minecraft.client.data.models.model.ModelTemplate;
 import net.minecraft.client.data.models.model.ModelTemplates;
 import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.client.data.models.model.TextureSlot;
-import net.minecraft.client.renderer.block.model.Variant;
-import net.minecraft.client.renderer.block.model.VariantMutator;
 import net.minecraft.core.Holder;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
@@ -28,6 +27,18 @@ import net.neoforged.neoforge.client.model.generators.template.ExtendedModelTemp
 import net.neoforged.neoforge.registries.DeferredBlock;
 
 import java.util.stream.Stream;
+
+//? if >=26.1 {
+/*import net.minecraft.client.renderer.block.dispatch.Variant;
+import net.minecraft.client.renderer.block.dispatch.VariantMutator;
+import net.minecraft.client.resources.model.sprite.Material;
+*///?} elif >=1.21.5 {
+import net.minecraft.client.renderer.block.model.Variant;
+import net.minecraft.client.renderer.block.model.VariantMutator;
+//?} else {
+/*import net.minecraft.client.data.models.blockstates.Variant;
+import net.minecraft.client.data.models.blockstates.VariantProperties;
+*///?}
 
 public class ModModelProvider extends ModelProvider {
 
@@ -48,8 +59,13 @@ public class ModModelProvider extends ModelProvider {
         boolean supportsMutedState = block instanceof FancyLanternBlock || block instanceof FizzeledLanternBlock;
         Identifier flameTexture = modLoc("block/lantern/flames/" + familyName);
 
+        //? if >=1.21.5 {
         PropertyDispatch.C3<VariantMutator, Boolean, Integer, Boolean> dispatch =
                 PropertyDispatch.modify(LanternBlock.HANGING, LanternStateProperties.LEVEL, LanternStateProperties.MUTED);
+        //?} else {
+        /*PropertyDispatch.C3<Boolean, Integer, Boolean> dispatch =
+                PropertyDispatch.properties(LanternBlock.HANGING, LanternStateProperties.LEVEL, LanternStateProperties.MUTED);
+        *///?}
 
         for (int level = LanternStateProperties.MIN_LEVEL; level <= LanternStateProperties.MAX_LEVEL; level++) {
             for (boolean muted : supportsMutedState ? new boolean[]{false, true} : new boolean[]{false}) {
@@ -67,15 +83,25 @@ public class ModModelProvider extends ModelProvider {
             }
         }
 
+        //? if >=1.21.5 {
         blockModels.blockStateOutput.accept(
                 MultiVariantGenerator.dispatch(block, BlockModelGenerators.variant(new Variant(
                                 modLoc("block/" + blockName + "_level_1"))))
                         .with(dispatch));
+        //?} else {
+        /*blockModels.blockStateOutput.accept(MultiVariantGenerator.multiVariant(block).with(dispatch));
+         *///?}
     }
 
+    //? if >=1.21.5 {
     private static VariantMutator modelVariant(Identifier model) {
         return VariantMutator.MODEL.withValue(model);
     }
+    //?} else {
+    /*private static Variant modelVariant(Identifier model) {
+        return Variant.variant().with(VariantProperties.MODEL, model);
+    }
+    *///?}
 
     private Identifier layeredLanternModel(
             BlockModelGenerators blockModels,
@@ -83,28 +109,44 @@ public class ModModelProvider extends ModelProvider {
             Identifier template,
             Identifier flameTexture,
             Identifier borderTexture) {
+        // 26.1 removed render types from models. Minecraft gets the render layer from the textures.
         ModelTemplate layerTemplate = ExtendedModelTemplateBuilder.builder()
                 .parent(template)
                 .requiredTextureSlot(TextureSlot.LANTERN)
+                //? if <26.1 {
                 .renderType("minecraft:cutout")
+                //?}
                 .build();
         ModelTemplate compositeTemplate = ExtendedModelTemplateBuilder.builder()
                 .parent(Identifier.withDefaultNamespace("block/block"))
                 .requiredTextureSlot(TextureSlot.PARTICLE)
+                //? if <26.1 {
                 .renderType("minecraft:cutout")
+                //?}
                 .customLoader(CompositeModelBuilder::new, loader -> loader
                         .inlineChild("base_flame", layerTemplate,
-                                TextureMapping.singleSlot(TextureSlot.LANTERN, flameTexture))
+                                TextureMapping.singleSlot(TextureSlot.LANTERN, texture(flameTexture)))
                         .inlineChild("upgrade_border", layerTemplate,
-                                TextureMapping.singleSlot(TextureSlot.LANTERN, borderTexture))
+                                TextureMapping.singleSlot(TextureSlot.LANTERN, texture(borderTexture)))
                         .itemRenderOrder("base_flame", "upgrade_border"))
                 .build();
 
         return compositeTemplate.create(
                 modelLocation,
-                TextureMapping.singleSlot(TextureSlot.PARTICLE, borderTexture),
+                TextureMapping.singleSlot(TextureSlot.PARTICLE, texture(borderTexture)),
                 blockModels.modelOutput);
     }
+
+    // From 26.1, texture mappings use Material instead of Identifier
+    //? if >=26.1 {
+    /*private static Material texture(Identifier sprite) {
+        return new Material(sprite);
+    }
+    *///?} else {
+    private static Identifier texture(Identifier sprite) {
+        return sprite;
+    }
+    //?}
 
     private Identifier getBorderTexture(String familyName, int level, boolean muted) {
         if (muted) {

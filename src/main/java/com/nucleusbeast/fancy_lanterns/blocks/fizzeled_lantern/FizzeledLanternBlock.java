@@ -30,6 +30,10 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Map;
 
+//? if <1.21.2 {
+/*import net.minecraft.world.ItemInteractionResult;
+*///?}
+
 public class FizzeledLanternBlock extends LanternBlock {
     public FizzeledLanternBlock(Properties properties) {
         super(properties);
@@ -64,8 +68,12 @@ public class FizzeledLanternBlock extends LanternBlock {
     protected @NotNull InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
         if (!level.isClientSide() && player instanceof ServerPlayer serverPlayer) {
             if (player.isShiftKeyDown()) {
-                player.displayClientMessage(Component.translatable(
-                        "block.fancy_lanterns.murky_lantern.fizzled"), true);
+                Component message = Component.translatable("block.fancy_lanterns.murky_lantern.fizzled");
+                //? if <26.1 {
+                player.displayClientMessage(message, true);
+                //?} else {
+                /*player.sendOverlayMessage(message);
+                 *///?}
             }
         }
 
@@ -73,7 +81,7 @@ public class FizzeledLanternBlock extends LanternBlock {
     }
 
     @Override
-    protected InteractionResult useItemOn(ItemStack itemStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand interactionHand, BlockHitResult hitResult) {
+    protected /*? if >=1.21.2 {*/InteractionResult/*?} else {*//*ItemInteractionResult*//*?}*/ useItemOn(ItemStack itemStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand interactionHand, BlockHitResult hitResult) {
         if (!state.getValue(LanternStateProperties.MUTED) && itemStack.is(ItemTags.WOOL)) {
             if (!level.isClientSide()) {
                 level.setBlockAndUpdate(pos, state.setValue(LanternStateProperties.MUTED, true));
@@ -81,7 +89,7 @@ public class FizzeledLanternBlock extends LanternBlock {
                 level.playSound(null, pos, SoundEvents.WOOL_PLACE, SoundSource.BLOCKS);
             }
 
-            return InteractionResult.SUCCESS;
+            return itemSuccess();
         }
 
         DeferredBlock<Block> relitBlock = RELIGHT_MATERIAL.stream()
@@ -114,12 +122,12 @@ public class FizzeledLanternBlock extends LanternBlock {
                 level.playSound(null, pos, SoundEvents.FOX_EAT, SoundSource.BLOCKS);
             }
 
-            return InteractionResult.SUCCESS;
+            return itemSuccess();
         }
 
         int currentLevel = state.getValue(LanternStateProperties.LEVEL);
         if (currentLevel >= LanternStateProperties.MAX_LEVEL) {
-            return InteractionResult.TRY_WITH_EMPTY_HAND;
+            return itemPass();
         }
         if (itemStack.is(LanternUpgradeMaterials.forLevel(currentLevel))) {
             if (!level.isClientSide()) {
@@ -131,11 +139,30 @@ public class FizzeledLanternBlock extends LanternBlock {
                 level.playSound(null, pos, SoundEvents.FOX_EAT, SoundSource.BLOCKS);
             }
 
-            return InteractionResult.SUCCESS;
+            return itemSuccess();
         }
 
+        return itemPass();
+    }
+
+    // Before 1.21.2, useItemOn returns ItemInteractionResult
+    //? if >=1.21.2 {
+    private static InteractionResult itemSuccess() {
+        return InteractionResult.SUCCESS;
+    }
+
+    private static InteractionResult itemPass() {
         return InteractionResult.TRY_WITH_EMPTY_HAND;
     }
+    //?} else {
+    /*private static ItemInteractionResult itemSuccess() {
+        return ItemInteractionResult.SUCCESS;
+    }
+
+    private static ItemInteractionResult itemPass() {
+        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+    }
+    *///?}
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {

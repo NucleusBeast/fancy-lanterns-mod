@@ -6,3 +6,8 @@
 /src/generated
 /.idea
 /.agents
+/versions
+/buildSrc/.gradle
+/buildSrc/.kotlin
+/buildSrc/build
+/.kotlin

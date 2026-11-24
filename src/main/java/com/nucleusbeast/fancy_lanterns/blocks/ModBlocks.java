@@ -7,9 +7,6 @@ import com.nucleusbeast.fancy_lanterns.blocks.fizzeled_lantern.FizzeledLanternBl
 import net.minecraft.core.particles.ColorParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.Identifier;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -23,13 +20,18 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import java.util.List;
 import java.util.function.Supplier;
 
+//? if >=1.21.2 {
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+//?}
+
 public final class ModBlocks {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(FancyLanterns.MODID);
 
     public static final DeferredBlock<Block> MURKY_LANTERN = registerBlock(
             "murky_lantern",
-            () -> new FizzeledLanternBlock(BlockBehaviour.Properties.of()
-                    .setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FancyLanterns.MODID, "murky_lantern")))
+            () -> new FizzeledLanternBlock(props("murky_lantern")
                     .strength(0.3f)
                     .lightLevel(state -> 1)
                     .sound(SoundType.LANTERN)
@@ -39,19 +41,17 @@ public final class ModBlocks {
     public static final DeferredBlock<Block> HASTY_LANTERN = registerBlock(
             "hasty_lantern",
             () -> new FancyLanternBlock(
-                    BlockBehaviour.Properties.of()
-                            .setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FancyLanterns.MODID, "hasty_lantern")))
+                    props("hasty_lantern")
                             .strength(0.3f)
                             .lightLevel(state -> 14)
                             .sound(SoundType.LANTERN),
-                    MobEffects.HASTE,
+                    MobEffects./*? if <1.21.5 {*//*DIG_SPEED*//*?} else {*/HASTE/*?}*/,
                     coloredEffectParticle(1.0F, 0.85F, 0.1F))
     );
     public static final DeferredBlock<Block> HEALTHY_LANTERN = registerBlock(
             "healthy_lantern",
             () -> new FancyLanternBlock(
-                    BlockBehaviour.Properties.of()
-                            .setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FancyLanterns.MODID, "healthy_lantern")))
+                    props("healthy_lantern")
                             .strength(0.3f)
                             .lightLevel(state -> 8)
                             .sound(SoundType.LANTERN),
@@ -61,8 +61,7 @@ public final class ModBlocks {
     public static final DeferredBlock<Block> ABSORBY_LANTERN = registerBlock(
             "absorby_lantern",
             () -> new FancyLanternBlock(
-                    BlockBehaviour.Properties.of()
-                            .setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FancyLanterns.MODID, "absorby_lantern")))
+                    props("absorby_lantern")
                             .strength(0.3f)
                             .lightLevel(state -> 10)
                             .sound(SoundType.LANTERN),
@@ -72,8 +71,7 @@ public final class ModBlocks {
     public static final DeferredBlock<Block> SATURATY_LANTERN = registerBlock(
             "saturaty_lantern",
             () -> new FancyLanternBlock(
-                    BlockBehaviour.Properties.of()
-                            .setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FancyLanterns.MODID, "saturaty_lantern")))
+                    props("saturaty_lantern")
                             .strength(0.3f)
                             .lightLevel(state -> 15)
                             .sound(SoundType.LANTERN),
@@ -83,8 +81,7 @@ public final class ModBlocks {
     public static final DeferredBlock<Block> NIGHTY_LANTERN = registerBlock(
             "nighty_lantern",
             () -> new FancyLanternBlock(
-                    BlockBehaviour.Properties.of()
-                            .setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FancyLanterns.MODID, "nighty_lantern")))
+                    props("nighty_lantern")
                             .strength(0.3f)
                             .lightLevel(state -> 9)
                             .sound(SoundType.LANTERN),
@@ -94,8 +91,7 @@ public final class ModBlocks {
     public static final DeferredBlock<Block> LUCKY_LANTERN = registerBlock(
             "lucky_lantern",
             () -> new FancyLanternBlock(
-                    BlockBehaviour.Properties.of()
-                            .setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FancyLanterns.MODID, "lucky_lantern")))
+                    props("lucky_lantern")
                             .strength(0.3f)
                             .lightLevel(state -> 12)
                             .sound(SoundType.LANTERN),
@@ -105,30 +101,27 @@ public final class ModBlocks {
     public static final DeferredBlock<Block> JUMPY_LANTERN = registerBlock(
             "jumpy_lantern",
             () -> new FancyLanternBlock(
-                    BlockBehaviour.Properties.of()
-                            .setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FancyLanterns.MODID, "jumpy_lantern")))
+                    props("jumpy_lantern")
                             .strength(0.3f)
                             .lightLevel(state -> 12)
                             .sound(SoundType.LANTERN),
-                    MobEffects.JUMP_BOOST,
+                    MobEffects./*? if <1.21.5 {*//*JUMP*//*?} else {*/JUMP_BOOST/*?}*/,
                     ParticleTypes.GLOW_SQUID_INK)
     );
     public static final DeferredBlock<Block> SPEEDY_LANTERN = registerBlock(
             "speedy_lantern",
             () -> new FancyLanternBlock(
-                    BlockBehaviour.Properties.of()
-                            .setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FancyLanterns.MODID, "speedy_lantern")))
+                    props("speedy_lantern")
                             .strength(0.3f)
                             .lightLevel(state -> 14)
                             .sound(SoundType.LANTERN),
-                    MobEffects.SPEED,
+                    MobEffects./*? if <1.21.5 {*//*MOVEMENT_SPEED*//*?} else {*/SPEED/*?}*/,
                     ParticleTypes.WAX_OFF)
     );
     public static final DeferredBlock<Block> FIERY_LANTERN = registerBlock(
             "fiery_lantern",
             () -> new FancyLanternBlock(
-                    BlockBehaviour.Properties.of()
-                            .setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FancyLanterns.MODID, "fiery_lantern")))
+                    props("fiery_lantern")
                             .strength(0.3f)
                             .lightLevel(state -> 13)
                             .sound(SoundType.LANTERN),
@@ -138,12 +131,11 @@ public final class ModBlocks {
     public static final DeferredBlock<Block> STRENGTHY_LANTERN = registerBlock(
             "strengthy_lantern",
             () -> new FancyLanternBlock(
-                    BlockBehaviour.Properties.of()
-                            .setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FancyLanterns.MODID, "strengthy_lantern")))
+                    props("strengthy_lantern")
                             .strength(0.3f)
                             .lightLevel(state -> 6)
                             .sound(SoundType.LANTERN),
-                    MobEffects.STRENGTH,
+                    MobEffects./*? if <1.21.5 {*//*DAMAGE_BOOST*//*?} else {*/STRENGTH/*?}*/,
                     ParticleTypes.CRIT
             )
     );
@@ -151,8 +143,7 @@ public final class ModBlocks {
     public static final DeferredBlock<Block> BREATHY_LANTERN = registerBlock(
             "breathy_lantern",
             () -> new FancyLanternBlock(
-                    BlockBehaviour.Properties.of()
-                            .setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FancyLanterns.MODID, "breathy_lantern")))
+                    props("breathy_lantern")
                             .strength(0.3f)
                             .lightLevel(state -> 7)
                             .sound(SoundType.LANTERN),
@@ -194,9 +185,22 @@ public final class ModBlocks {
         return ColorParticleOption.create(ParticleTypes.ENTITY_EFFECT, red, green, blue);
     }
 
+    // From 1.21.2, blocks must know their registry id before they are made
+    private static BlockBehaviour.Properties props(String name) {
+        return BlockBehaviour.Properties.of()
+                //? if >=1.21.2 {
+                .setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FancyLanterns.MODID, name)))
+                //?}
+                ;
+    }
+
     private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {
         DeferredBlock<T> registeredBlock = BLOCKS.register(name, block);
-        ModItems.ITEMS.register(name, () -> new BlockItem(registeredBlock.get(), new Item.Properties().setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(FancyLanterns.MODID, name)))));
+        ModItems.ITEMS.register(name, () -> new BlockItem(registeredBlock.get(), new Item.Properties()
+                //? if >=1.21.2 {
+                .setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(FancyLanterns.MODID, name)))
+                //?}
+        ));
         return registeredBlock;
     }
 

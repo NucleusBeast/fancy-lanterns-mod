@@ -29,6 +29,10 @@ import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+//? if <1.21.2 {
+/*import net.minecraft.world.ItemInteractionResult;
+*///?}
+
 public class FancyLanternBlock extends LanternBlock implements EntityBlock {
 
     public FancyLanternBlock(Properties properties, Holder<MobEffect> effect, ParticleOptions particleType) {
@@ -78,7 +82,11 @@ public class FancyLanternBlock extends LanternBlock implements EntityBlock {
                 if (blockEntity instanceof FancyLanternEntity fancyLantern) {
                     fancyLantern.startRangePreview(serverPlayer);
                 } else {
+                    //? if <26.1 {
                     player.displayClientMessage(Component.literal("Something went wrong!"), true);
+                    //?} else {
+                    /*player.sendOverlayMessage(Component.literal("Something went wrong!"));
+                     *///?}
                 }
             }
         }
@@ -87,7 +95,7 @@ public class FancyLanternBlock extends LanternBlock implements EntityBlock {
     }
 
     @Override
-    protected InteractionResult useItemOn(ItemStack itemStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand interactionHand, BlockHitResult hitResult) {
+    protected /*? if >=1.21.2 {*/InteractionResult/*?} else {*//*ItemInteractionResult*//*?}*/ useItemOn(ItemStack itemStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand interactionHand, BlockHitResult hitResult) {
         if (!state.getValue(LanternStateProperties.MUTED) && itemStack.is(ItemTags.WOOL)) {
             if (!level.isClientSide()) {
                 level.setBlockAndUpdate(pos, state.setValue(LanternStateProperties.MUTED, true));
@@ -95,12 +103,12 @@ public class FancyLanternBlock extends LanternBlock implements EntityBlock {
                 level.playSound(null, pos, SoundEvents.WOOL_PLACE, SoundSource.BLOCKS);
             }
 
-            return InteractionResult.SUCCESS;
+            return itemSuccess();
         }
 
         int currentLevel = state.getValue(LanternStateProperties.LEVEL);
         if (currentLevel >= LanternStateProperties.MAX_LEVEL) {
-            return InteractionResult.TRY_WITH_EMPTY_HAND;
+            return itemPass();
         }
 
         if (itemStack.is(LanternUpgradeMaterials.forLevel(currentLevel))) {
@@ -117,11 +125,30 @@ public class FancyLanternBlock extends LanternBlock implements EntityBlock {
                 level.playSound(null, pos, SoundEvents.FOX_EAT, SoundSource.BLOCKS);
             }
 
-            return InteractionResult.SUCCESS;
+            return itemSuccess();
         }
 
+        return itemPass();
+    }
+
+    // Before 1.21.2, useItemOn returns ItemInteractionResult
+    //? if >=1.21.2 {
+    private static InteractionResult itemSuccess() {
+        return InteractionResult.SUCCESS;
+    }
+
+    private static InteractionResult itemPass() {
         return InteractionResult.TRY_WITH_EMPTY_HAND;
     }
+    //?} else {
+    /*private static ItemInteractionResult itemSuccess() {
+        return ItemInteractionResult.SUCCESS;
+    }
+
+    private static ItemInteractionResult itemPass() {
+        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+    }
+    *///?}
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {

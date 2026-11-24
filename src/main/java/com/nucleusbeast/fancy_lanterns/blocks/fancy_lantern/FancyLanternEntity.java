@@ -18,14 +18,20 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.storage.ValueInput;
-import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 
 import javax.annotation.Nullable;
 import java.util.*;
 
 import static net.minecraft.world.level.block.entity.BeaconBlockEntity.playSound;
+
+//? if >=1.21.6 {
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+//?} else {
+/*import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
+*///?}
 
 public class FancyLanternEntity extends BlockEntity {
 
@@ -57,6 +63,7 @@ public class FancyLanternEntity extends BlockEntity {
         setChanged();
     }
 
+    //? if >=1.21.6 {
     @Override
     protected void saveAdditional(ValueOutput output) {
         super.saveAdditional(output);
@@ -69,6 +76,31 @@ public class FancyLanternEntity extends BlockEntity {
         usesRemaining = input.getInt(USES_REMAINING_TAG).get();
 
     }
+    //?} else {
+    /*@Override
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
+        tag.putInt(USES_REMAINING_TAG, usesRemaining);
+    }
+
+    @Override
+    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
+        if (tag.contains(USES_REMAINING_TAG)) {
+            usesRemaining = readUses(tag);
+        }
+    }
+    *///?}
+
+    //? if >=1.21.5 <1.21.6 {
+    /*private static int readUses(CompoundTag tag) {
+        return tag.getInt(USES_REMAINING_TAG).get();
+    }
+    *///?} elif <1.21.5 {
+    /*private static int readUses(CompoundTag tag) {
+        return tag.getInt(USES_REMAINING_TAG);
+    }
+    *///?}
 
     public void startRangePreview(ServerPlayer player) {
         if (level instanceof ServerLevel serverLevel) {
@@ -176,7 +208,7 @@ public class FancyLanternEntity extends BlockEntity {
                     player,
                     ParticleTypes.COMPOSTER,
                     false,
-                    false,
+                    /*? if >=1.21.4 {*/false,/*?}*/
                     particleX,
                     particleY,
                     particleZ,
