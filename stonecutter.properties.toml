@@ -2,7 +2,7 @@
 mod.id = "fancy_lanterns"
 mod.name = "Fancy Lanterns"
 mod.group = "com.nucleusbeast"
-mod.version = "1.0.0"
+mod.version = "1.2.0"
 mod.license = "MIT"
 mod.authors = "NucleusBeast"
 mod.description = "Lanterns that are finally usefull. Think of them as mini beacons!"

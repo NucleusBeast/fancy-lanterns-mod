@@ -161,7 +161,11 @@ publishMods {
     // Same version number and name for every Minecraft version, like the older uploads
     displayName = "${property("mod.name")} $modVersion"
     version = modVersion
-    changelog = providers.fileContents(rootProject.layout.projectDirectory.file("CHANGELOG.md")).asText.orElse("")
+    // Only the newest section of CHANGELOG.md (from the first "# " heading to the next one)
+    changelog = providers.fileContents(rootProject.layout.projectDirectory.file("CHANGELOG.md")).asText.map { text ->
+        val sections = text.split(Regex("(?m)^(?=# )")).filter { it.isNotBlank() }
+        sections.firstOrNull()?.trim() ?: ""
+    }.orElse("")
     type = STABLE
     modLoaders.add("neoforge")
     dryRun = providers.gradleProperty("dryRun").isPresent
